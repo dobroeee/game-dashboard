@@ -334,7 +334,7 @@ body {
   flex: 0 0 24px;
   border-radius: 6px;
   border: 1px solid var(--line);
-  background: #1c2433;
+  background: #d7dce3;
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -430,8 +430,7 @@ body {
 
 #gdash-root .gdash__bracket-wrap {
   position: relative;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: visible;
   border: 1px solid var(--line);
   border-radius: 18px;
   padding: 18px;
@@ -455,10 +454,10 @@ body {
 }
 
 #gdash-root .gdash__bracket {
-  min-width: 980px;
+  width: 100%;
   display: grid;
-  grid-template-columns: 280px 280px 280px;
-  column-gap: 70px;
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
+  column-gap: 54px;
   align-items: start;
 }
 
@@ -577,5 +576,243 @@ body {
 
   #gdash-root .gdash__match-row {
     grid-template-columns: 62px minmax(0, 1fr) 48px minmax(0, 1fr);
+  }
+}
+
+
+#gdash-root .gdash__bracket-round-title {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  width: auto;
+  height: auto;
+  padding: 0 12px;
+  margin: 0 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(11, 16, 26, 0.82);
+  color: var(--text);
+}
+
+#gdash-root .gdash__winner-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#gdash-root .gdash__team-logo--winner {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 12px;
+}
+
+/* Modal */
+#gdash-root .gdash__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#gdash-root .gdash__modal.is-open {
+  display: flex;
+}
+
+#gdash-root .gdash__modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.72);
+}
+
+#gdash-root .gdash__modal-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 460px);
+  background: #0f1420;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+  color: var(--text);
+}
+
+#gdash-root .gdash__modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel-soft);
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#gdash-root .gdash__modal-eyebrow {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+#gdash-root .gdash__modal-title {
+  margin: 8px 0 0;
+  font-size: 26px;
+  line-height: 1.12;
+  font-weight: 900;
+}
+
+#gdash-root .gdash__modal-text {
+  margin: 10px 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+#gdash-root .gdash__form {
+  display: grid;
+  gap: 12px;
+}
+
+#gdash-root .gdash__field {
+  display: grid;
+  gap: 7px;
+}
+
+#gdash-root .gdash__field.is-hidden {
+  display: none;
+}
+
+#gdash-root .gdash__field-label {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+#gdash-root .gdash__input {
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #0b101a;
+  color: var(--text);
+  padding: 0 12px;
+  font: inherit;
+  font-size: 16px;
+  outline: none;
+}
+
+#gdash-root .gdash__input:focus {
+  border-color: #8d98ad;
+}
+
+#gdash-root .gdash__input.is-error {
+  border-color: #fca5a5;
+}
+
+#gdash-root .gdash__field-error {
+  min-height: 14px;
+  color: #fca5a5;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+#gdash-root .gdash__contact-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+#gdash-root .gdash__contact-tab input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#gdash-root .gdash__contact-tab span {
+  min-height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #0b101a;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+#gdash-root .gdash__contact-tab input:checked + span {
+  background: #f3f6fb;
+  border-color: #f3f6fb;
+  color: #080b12;
+}
+
+#gdash-root .gdash__submit {
+  height: 46px;
+  border: 0;
+  border-radius: 10px;
+  background: #f3f6fb;
+  color: #080b12;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+#gdash-root .gdash__form-success {
+  display: none;
+  padding: 10px 12px;
+  border: 1px solid rgba(134, 239, 172, 0.5);
+  border-radius: 10px;
+  background: var(--green-bg);
+  color: var(--green-text);
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+#gdash-root .gdash__form-success.is-visible {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  #gdash-root .gdash__bracket {
+    grid-template-columns: 1fr;
+    row-gap: 22px;
+  }
+
+  #gdash-root .gdash__bracket-col {
+    min-height: auto;
+    display: grid;
+    gap: 10px;
+  }
+
+  #gdash-root .gdash__bracket-card {
+    position: static;
+  }
+
+  #gdash-root .gdash__bracket-lines {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  #gdash-root .gdash__match-row {
+    grid-template-columns: 1fr;
+  }
+
+  #gdash-root .gdash__match-time,
+  #gdash-root .gdash__score {
+    justify-self: start;
   }
 }

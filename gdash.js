@@ -504,8 +504,8 @@ const GDASH_DATA = {
         <div class="gdash__brand">
           <div class="gdash__brand-mark">G</div>
           <div>
-            <div class="gdash__brand-title">Game Dashboard</div>
-            <div class="gdash__brand-subtitle">Austin Major 2025</div>
+            <div class="gdash__brand-title">Сетка мажора по CS2 2025</div>
+            <div class="gdash__brand-subtitle">Турнирная таблица и плей-офф</div>
           </div>
         </div>
         <div class="gdash__header-right">
@@ -524,7 +524,7 @@ const GDASH_DATA = {
               <h1 class="gdash__title">BLAST.tv Austin Major 2025</h1>
               <p class="gdash__desc">Путь турнира 2025: плей-офф, все игры этапов 1–3 и итоги этапов.</p>
             </div>
-            <div class="gdash__winner-card"><span>Победитель</span><strong>Team Vitality</strong></div>
+            <div class="gdash__winner-card"><span>Победитель</span><div class="gdash__winner-team"><div class="gdash__team-logo gdash__team-logo--winner"><img class="gdash__team-logo-img" src="https://optim.tildacdn.com/tild3261-6165-4866-b462-346633383039/-/contain/480x480/center/center/-/format/webp/Team_Vitality.png.webp" alt="Team Vitality"></div><strong>Team Vitality</strong></div></div>
           </div>
 
           <section class="gdash__section gdash__section--playoff">
@@ -565,6 +565,53 @@ const GDASH_DATA = {
           </section>
         </section>
       </main>
+
+      <div class="gdash__modal" id="gdash-order-modal" aria-hidden="true">
+        <div class="gdash__modal-backdrop" data-modal-close></div>
+        <div class="gdash__modal-card" role="dialog" aria-modal="true" aria-labelledby="gdash-order-title">
+          <button class="gdash__modal-close" type="button" data-modal-close>×</button>
+          <div class="gdash__modal-eyebrow">Заявка</div>
+          <h2 class="gdash__modal-title" id="gdash-order-title">Заказать сетку на сайт</h2>
+          <p class="gdash__modal-text">Оставьте имя и удобный способ связи. Я свяжусь с вами для уточнения задачи.</p>
+
+          <form class="gdash__form" id="gdash-order-form" novalidate>
+            <label class="gdash__field">
+              <span class="gdash__field-label">Имя</span>
+              <input class="gdash__input" type="text" name="name" autocomplete="name" placeholder="Ваше имя">
+              <span class="gdash__field-error" data-error-for="name"></span>
+            </label>
+
+            <div class="gdash__field">
+              <span class="gdash__field-label">Способ связи</span>
+              <div class="gdash__contact-tabs">
+                <label class="gdash__contact-tab">
+                  <input type="radio" name="contactType" value="phone" checked>
+                  <span>Телефон</span>
+                </label>
+                <label class="gdash__contact-tab">
+                  <input type="radio" name="contactType" value="telegram">
+                  <span>Telegram</span>
+                </label>
+              </div>
+            </div>
+
+            <label class="gdash__field" data-contact-field="phone">
+              <span class="gdash__field-label">Телефон</span>
+              <input class="gdash__input" type="tel" name="phone" autocomplete="tel" placeholder="+7 999 999-99-99">
+              <span class="gdash__field-error" data-error-for="phone"></span>
+            </label>
+
+            <label class="gdash__field is-hidden" data-contact-field="telegram">
+              <span class="gdash__field-label">Telegram</span>
+              <input class="gdash__input" type="text" name="telegram" placeholder="@username">
+              <span class="gdash__field-error" data-error-for="telegram"></span>
+            </label>
+
+            <button class="gdash__submit" type="submit">Отправить заявку</button>
+            <div class="gdash__form-success" id="gdash-form-success">Заявка подготовлена. Подключите отправку в Tilda/CRM или Telegram.</div>
+          </form>
+        </div>
+      </div>
     </div>`;
 
   const TEAM_LOGOS = {
@@ -744,4 +791,108 @@ const GDASH_DATA = {
       setTimeout(drawLines, 60);
     }),
   );
+  const modal = root.querySelector("#gdash-order-modal");
+  const orderButton = root.querySelector(".gdash__order-btn");
+  const orderForm = root.querySelector("#gdash-order-form");
+  const successMessage = root.querySelector("#gdash-form-success");
+
+  function openModal() {
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    const nameInput = orderForm.querySelector('[name="name"]');
+    setTimeout(() => nameInput && nameInput.focus(), 60);
+  }
+
+  function closeModal() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  function setError(name, message) {
+    const error = orderForm.querySelector(`[data-error-for="${name}"]`);
+    const input = orderForm.querySelector(`[name="${name}"]`);
+    if (error) error.textContent = message || "";
+    if (input) input.classList.toggle("is-error", Boolean(message));
+  }
+
+  function clearErrors() {
+    ["name", "phone", "telegram"].forEach((name) => setError(name, ""));
+    successMessage.classList.remove("is-visible");
+  }
+
+  function getContactType() {
+    const checked = orderForm.querySelector('[name="contactType"]:checked');
+    return checked ? checked.value : "phone";
+  }
+
+  function updateContactFields() {
+    const type = getContactType();
+    root.querySelectorAll("[data-contact-field]").forEach((field) => {
+      field.classList.toggle("is-hidden", field.dataset.contactField !== type);
+    });
+    clearErrors();
+  }
+
+  function validateForm() {
+    clearErrors();
+
+    const name = orderForm.name.value.trim();
+    const type = getContactType();
+    const phone = orderForm.phone.value.trim();
+    const telegram = orderForm.telegram.value.trim();
+    let isValid = true;
+
+    if (!/^[A-Za-zА-Яа-яЁё\s-]{2,}$/.test(name)) {
+      setError("name", "Введите имя от 2 букв.");
+      isValid = false;
+    }
+
+    if (type === "phone") {
+      const cleanPhone = phone.replace(/[^\d+]/g, "");
+      if (!/^\+?\d{10,15}$/.test(cleanPhone)) {
+        setError("phone", "Введите корректный номер телефона.");
+        isValid = false;
+      }
+    }
+
+    if (type === "telegram") {
+      if (!/^@?[A-Za-z0-9_]{5,32}$/.test(telegram)) {
+        setError("telegram", "Введите корректный Telegram, например @username.");
+        isValid = false;
+      }
+    }
+
+    return isValid;
+  }
+
+  orderButton.addEventListener("click", openModal);
+
+  modal.querySelectorAll("[data-modal-close]").forEach((item) => {
+    item.addEventListener("click", closeModal);
+  });
+
+  orderForm.querySelectorAll('[name="contactType"]').forEach((radio) => {
+    radio.addEventListener("change", updateContactFields);
+  });
+
+  orderForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (!validateForm()) return;
+
+    successMessage.classList.add("is-visible");
+    orderForm.reset();
+    updateContactFields();
+
+    setTimeout(closeModal, 1400);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal.classList.contains("is-open")) {
+      closeModal();
+    }
+  });
+
+  updateContactFields();
+
 })();
