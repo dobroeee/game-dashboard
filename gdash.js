@@ -866,7 +866,14 @@ const GDASH_DATA = {
     return isValid;
   }
 
-  orderButton.addEventListener("click", openModal);
+  orderButton.addEventListener("click", () => {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "gdash-open-order" }, "*");
+      return;
+    }
+
+    openModal();
+  });
 
   modal.querySelectorAll("[data-modal-close]").forEach((item) => {
     item.addEventListener("click", closeModal);
@@ -895,5 +902,28 @@ const GDASH_DATA = {
   });
 
   updateContactFields();
+
+  function sendDashboardHeight() {
+    const height = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight,
+      root.scrollHeight
+    );
+
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "gdash-height", height: height }, "*");
+    }
+  }
+
+  setTimeout(sendDashboardHeight, 100);
+  setTimeout(sendDashboardHeight, 500);
+  window.addEventListener("load", sendDashboardHeight);
+  window.addEventListener("resize", sendDashboardHeight);
+
+  if ("ResizeObserver" in window) {
+    const resizeObserver = new ResizeObserver(sendDashboardHeight);
+    resizeObserver.observe(document.body);
+    resizeObserver.observe(root);
+  }
 
 })();
