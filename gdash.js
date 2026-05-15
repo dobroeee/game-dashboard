@@ -23,7 +23,7 @@ const GDASH_DATA = {
               score: "1:0",
               b: "Legacy",
             },
-            { time: "03.06 20:30", a: "TYLOO", score: "0:0", b: "NRG" },
+            { time: "03.06 20:30", a: "TYLOO", score: "0:1", b: "NRG" },
             { time: "03.06 21:45", a: "FlyQuest", score: "1:0", b: "Fluxo" },
             {
               time: "03.06 21:45",
