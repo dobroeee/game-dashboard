@@ -869,7 +869,14 @@ const GDASH_DATA = {
     return isValid;
   }
 
-  orderButton.addEventListener("click", openModal);
+  orderButton.addEventListener("click", () => {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "gdash-open-order" }, "*");
+      return;
+    }
+
+    openModal();
+  });
 
   modal.querySelectorAll("[data-modal-close]").forEach((item) => {
     item.addEventListener("click", closeModal);
