@@ -523,14 +523,28 @@ const GDASH_DATA = {
     if (sb > sa) return match.b;
     return "";
   }
+  function logoText(name) {
+    return String(name || "")
+      .replace(/[^a-zA-Zа-яА-Я0-9 ]/g, "")
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((word) => word.charAt(0).toUpperCase())
+      .join("") || "T";
+  }
+
+  function renderTeamTag(name, isWinner) {
+    return `<div class="gdash__team-tag ${isWinner ? "is-winner" : ""}"><div class="gdash__team-logo">${logoText(name)}</div><span class="gdash__team-name">${name}</span></div>`;
+  }
+
   function renderMatch(m) {
     const w = winner(m);
-    return `<div class="gdash__match-row"><div class="gdash__match-time">${m.time}</div><div class="gdash__team-name ${w === m.a ? "is-winner" : ""}">${m.a}</div><div class="gdash__score">${m.score}</div><div class="gdash__team-name ${w === m.b ? "is-winner" : ""}">${m.b}</div></div>`;
+    return `<div class="gdash__match-row"><div class="gdash__match-time">${m.time}</div>${renderTeamTag(m.a, w === m.a)}<div class="gdash__score">${m.score}</div>${renderTeamTag(m.b, w === m.b)}</div>`;
   }
   document.getElementById("gdash-stages").innerHTML = GDASH_DATA.stages
     .map(
       (stage) =>
-        `<article class="gdash__stage-card"><div class="gdash__stage-top"><h3 class="gdash__stage-title">${stage.title}</h3><div class="gdash__stage-meta">${stage.meta.map((x) => `<span class="gdash__pill">${x}</span>`).join("")}</div></div>${stage.rounds.map((r) => `<div class="gdash__round"><h4 class="gdash__round-title">${r.title}${r.group ? `<span class="gdash__round-subtitle">${r.group}</span>` : ""}</h4><div class="gdash__match-list">${r.matches.map(renderMatch).join("")}</div></div>`).join("")}</article>`,
+        `<article class="gdash__stage-card"><div class="gdash__stage-top"><h3 class="gdash__stage-title">${stage.title}</h3></div>${stage.rounds.map((r) => `<div class="gdash__round"><h4 class="gdash__round-title">${r.title}${r.group ? `<span class="gdash__round-subtitle">${r.group}</span>` : ""}</h4><div class="gdash__match-list">${r.matches.map(renderMatch).join("")}</div></div>`).join("")}</article>`,
     )
     .join("");
   document.getElementById("gdash-status").innerHTML = GDASH_DATA.stageStatus
@@ -539,8 +553,12 @@ const GDASH_DATA = {
         `<article class="gdash__status-card"><h3 class="gdash__status-title">Этап ${i + 1}</h3><div class="gdash__status-list">${list.map((row, idx) => `<div class="gdash__status-row ${row.in ? "is-in" : "is-out"}"><div class="gdash__place">${idx + 1}</div><div class="gdash__status-team">${row.team}</div><div class="gdash__status-score">${row.score}</div></div>`).join("")}</div></article>`,
     )
     .join("");
+  function bracketTeam(name, score, isWinner) {
+    return `<div class="gdash__bracket-team ${isWinner ? "is-winner" : ""}"><div class="gdash__team-tag ${isWinner ? "is-winner" : ""}"><div class="gdash__team-logo">${logoText(name)}</div><span class="gdash__bracket-team-name">${name}</span></div><div class="gdash__bracket-score">${score}</div></div>`;
+  }
+
   function bracketCard(m) {
-    return `<article class="gdash__bracket-card" data-match="${m.id}" data-pos="${m.pos}"><div class="gdash__bracket-match-title">${m.round} · ${m.time}</div><div class="gdash__bracket-team ${m.winner === m.a ? "is-winner" : ""}"><div class="gdash__bracket-team-name">${m.a}</div><div class="gdash__bracket-score">${m.sa}</div></div><div class="gdash__bracket-team ${m.winner === m.b ? "is-winner" : ""}"><div class="gdash__bracket-team-name">${m.b}</div><div class="gdash__bracket-score">${m.sb}</div></div></article>`;
+    return `<article class="gdash__bracket-card" data-match="${m.id}" data-pos="${m.pos}"><div class="gdash__bracket-match-title">${m.round} · ${m.time}</div>${bracketTeam(m.a, m.sa, m.winner === m.a)}${bracketTeam(m.b, m.sb, m.winner === m.b)}</article>`;
   }
   const q = GDASH_DATA.playoff
     .filter((m) => m.id[0] === "q")
