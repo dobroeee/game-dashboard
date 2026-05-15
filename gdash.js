@@ -797,10 +797,11 @@ const GDASH_DATA = {
   const successMessage = root.querySelector("#gdash-form-success");
 
   function openModal() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
     const nameInput = orderForm.querySelector('[name="name"]');
-    setTimeout(() => nameInput && nameInput.focus(), 60);
+    setTimeout(() => nameInput && nameInput.focus(), 120);
   }
 
   function closeModal() {
