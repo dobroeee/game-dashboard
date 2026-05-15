@@ -758,6 +758,7 @@ const GDASH_DATA = {
   }
 
   setTimeout(drawLines, 60);
+  setTimeout(() => requestHeightUpdate(), 120);
   window.addEventListener("resize", drawLines);
   document.getElementById("gdash-bracket-wrap").addEventListener("scroll", drawLines);
 
@@ -789,6 +790,7 @@ const GDASH_DATA = {
       root.querySelectorAll(".gdash__nav-btn").forEach((item) => item.classList.toggle("is-active", item === button));
       root.querySelectorAll(".gdash__page").forEach((section) => section.classList.toggle("is-active", section.dataset.pageContent === page));
       setTimeout(drawLines, 60);
+      requestHeightUpdate();
     }),
   );
   const modal = root.querySelector("#gdash-order-modal");
@@ -797,9 +799,9 @@ const GDASH_DATA = {
   const successMessage = root.querySelector("#gdash-form-success");
 
   function openModal() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
+    requestHeightUpdate();
     const nameInput = orderForm.querySelector('[name="name"]');
     setTimeout(() => nameInput && nameInput.focus(), 120);
   }
@@ -807,6 +809,7 @@ const GDASH_DATA = {
   function closeModal() {
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
+    requestHeightUpdate();
   }
 
   function setError(name, message) {
@@ -885,6 +888,7 @@ const GDASH_DATA = {
     orderForm.reset();
     updateContactFields();
 
+    requestHeightUpdate();
     setTimeout(closeModal, 1400);
   });
 
@@ -897,18 +901,17 @@ const GDASH_DATA = {
   updateContactFields();
 
   let lastSentHeight = 0;
+  let heightTimer = null;
 
   function sendDashboardHeight() {
+    const shell = root.querySelector(".gdash__shell");
     const height = Math.ceil(Math.max(
-      document.documentElement.offsetHeight,
-      document.documentElement.scrollHeight,
-      document.body.offsetHeight,
+      shell ? shell.scrollHeight : 0,
       document.body.scrollHeight,
-      root.offsetHeight,
-      root.scrollHeight
+      document.documentElement.scrollHeight
     ));
 
-    if (Math.abs(height - lastSentHeight) < 4) return;
+    if (!height || Math.abs(height - lastSentHeight) < 2) return;
     lastSentHeight = height;
 
     if (window.parent && window.parent !== window) {
@@ -916,23 +919,21 @@ const GDASH_DATA = {
     }
   }
 
-  [50, 150, 300, 700, 1200, 2000, 3500].forEach((delay) => {
+  function requestHeightUpdate() {
+    clearTimeout(heightTimer);
+    heightTimer = setTimeout(sendDashboardHeight, 80);
+  }
+
+  [80, 250, 600, 1200, 2200].forEach((delay) => {
     setTimeout(sendDashboardHeight, delay);
   });
 
-  window.addEventListener("load", sendDashboardHeight);
-  window.addEventListener("resize", sendDashboardHeight);
+  window.addEventListener("load", requestHeightUpdate);
+  window.addEventListener("resize", requestHeightUpdate);
 
   document.querySelectorAll("img").forEach((img) => {
-    img.addEventListener("load", sendDashboardHeight);
-    img.addEventListener("error", sendDashboardHeight);
+    img.addEventListener("load", requestHeightUpdate);
+    img.addEventListener("error", requestHeightUpdate);
   });
-
-  if ("ResizeObserver" in window) {
-    const resizeObserver = new ResizeObserver(sendDashboardHeight);
-    resizeObserver.observe(document.documentElement);
-    resizeObserver.observe(document.body);
-    resizeObserver.observe(root);
-  }
 
 })();
