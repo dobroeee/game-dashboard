@@ -866,14 +866,7 @@ const GDASH_DATA = {
     return isValid;
   }
 
-  orderButton.addEventListener("click", () => {
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage({ type: "gdash-open-order" }, "*");
-      return;
-    }
-
-    openModal();
-  });
+  orderButton.addEventListener("click", openModal);
 
   modal.querySelectorAll("[data-modal-close]").forEach((item) => {
     item.addEventListener("click", closeModal);
@@ -903,25 +896,41 @@ const GDASH_DATA = {
 
   updateContactFields();
 
+  let lastSentHeight = 0;
+
   function sendDashboardHeight() {
-    const height = Math.max(
+    const height = Math.ceil(Math.max(
+      document.documentElement.offsetHeight,
       document.documentElement.scrollHeight,
+      document.body.offsetHeight,
       document.body.scrollHeight,
+      root.offsetHeight,
       root.scrollHeight
-    );
+    ));
+
+    if (Math.abs(height - lastSentHeight) < 4) return;
+    lastSentHeight = height;
 
     if (window.parent && window.parent !== window) {
       window.parent.postMessage({ type: "gdash-height", height: height }, "*");
     }
   }
 
-  setTimeout(sendDashboardHeight, 100);
-  setTimeout(sendDashboardHeight, 500);
+  [50, 150, 300, 700, 1200, 2000, 3500].forEach((delay) => {
+    setTimeout(sendDashboardHeight, delay);
+  });
+
   window.addEventListener("load", sendDashboardHeight);
   window.addEventListener("resize", sendDashboardHeight);
 
+  document.querySelectorAll("img").forEach((img) => {
+    img.addEventListener("load", sendDashboardHeight);
+    img.addEventListener("error", sendDashboardHeight);
+  });
+
   if ("ResizeObserver" in window) {
     const resizeObserver = new ResizeObserver(sendDashboardHeight);
+    resizeObserver.observe(document.documentElement);
     resizeObserver.observe(document.body);
     resizeObserver.observe(root);
   }
