@@ -1,0 +1,632 @@
+#gdash-root.gdash {
+    --gdash-bg: #f5f6f8;
+    --gdash-panel: #ffffff;
+    --gdash-panel-2: #f9fafb;
+    --gdash-text: #111827;
+    --gdash-muted: #6b7280;
+    --gdash-line: #d7dce3;
+    --gdash-line-dark: #aeb7c4;
+    --gdash-accent: #1f2937;
+    --gdash-win: #eef7f0;
+    --gdash-lose: #fafafa;
+    --gdash-radius: 14px;
+    --gdash-shadow: 0 12px 30px rgba(17, 24, 39, 0.06);
+    width: 100%;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--gdash-text);
+  }
+
+  #gdash-root.gdash *,
+  #gdash-root.gdash *::before,
+  #gdash-root.gdash *::after {
+    box-sizing: border-box;
+  }
+
+  #gdash-root .gdash__shell {
+    width: 100%;
+    min-height: 760px;
+    background: var(--gdash-bg);
+    border: 1px solid var(--gdash-line);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  #gdash-root .gdash__header {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px 22px;
+    background: #111827;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  #gdash-root .gdash__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  #gdash-root .gdash__brand-mark {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: #ffffff;
+    color: #111827;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  #gdash-root .gdash__brand-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  #gdash-root .gdash__brand-subtitle {
+    margin-top: 3px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.62);
+    white-space: nowrap;
+  }
+
+  #gdash-root .gdash__nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #gdash-root .gdash__nav-btn {
+    min-height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    padding: 0 18px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.72);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  #gdash-root .gdash__nav-btn:hover,
+  #gdash-root .gdash__nav-btn.is-active {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #111827;
+  }
+
+  #gdash-root .gdash__main {
+    min-width: 0;
+    padding: 24px;
+  }
+
+  #gdash-root .gdash__page {
+    display: none;
+  }
+
+  #gdash-root .gdash__page.is-active {
+    display: block;
+  }
+
+  #gdash-root .gdash__topbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 18px;
+  }
+
+  #gdash-root .gdash__eyebrow {
+    font-size: 12px;
+    line-height: 1.2;
+    color: var(--gdash-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+
+  #gdash-root .gdash__title {
+    margin: 6px 0 0;
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: 800;
+    color: var(--gdash-text);
+  }
+
+  #gdash-root .gdash__control {
+    min-width: 210px;
+    display: grid;
+    gap: 8px;
+  }
+
+  #gdash-root .gdash__control-label {
+    font-size: 12px;
+    color: var(--gdash-muted);
+    font-weight: 700;
+  }
+
+  #gdash-root .gdash__select {
+    width: 100%;
+    height: 44px;
+    border: 1px solid var(--gdash-line);
+    border-radius: 10px;
+    padding: 0 12px;
+    background: #ffffff;
+    color: var(--gdash-text);
+    font: inherit;
+    font-size: 14px;
+    outline: none;
+  }
+
+  #gdash-root .gdash__select:focus {
+    border-color: var(--gdash-accent);
+  }
+
+  #gdash-root .gdash__tournament-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 18px;
+    background: var(--gdash-panel);
+    border: 1px solid var(--gdash-line);
+    border-radius: var(--gdash-radius);
+    padding: 20px;
+    box-shadow: var(--gdash-shadow);
+  }
+
+  #gdash-root .gdash__tournament-title {
+    margin: 6px 0 0;
+    font-size: 32px;
+    line-height: 1.08;
+    font-weight: 800;
+    color: var(--gdash-text);
+  }
+
+  #gdash-root .gdash__winner-card {
+    min-width: 220px;
+    display: grid;
+    align-content: center;
+    gap: 6px;
+    padding: 16px 18px;
+    border: 1px solid var(--gdash-line);
+    border-radius: 12px;
+    background: var(--gdash-panel-2);
+  }
+
+  #gdash-root .gdash__winner-card strong {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  #gdash-root .gdash__muted {
+    color: var(--gdash-muted);
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  #gdash-root .gdash__info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  #gdash-root .gdash__info-card {
+    background: var(--gdash-panel);
+    border: 1px solid var(--gdash-line);
+    border-radius: 12px;
+    padding: 13px;
+  }
+
+  #gdash-root .gdash__info-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: var(--gdash-muted);
+    font-weight: 700;
+  }
+
+  #gdash-root .gdash__info-value {
+    display: block;
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: var(--gdash-text);
+  }
+
+  #gdash-root .gdash__section-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-end;
+    margin: 24px 0 12px;
+  }
+
+  #gdash-root .gdash__section-title {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 800;
+  }
+
+  #gdash-root .gdash__section-text {
+    max-width: 520px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--gdash-muted);
+    text-align: right;
+  }
+
+  #gdash-root .gdash__bracket-wrap {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--gdash-panel);
+    border: 1px solid var(--gdash-line);
+    border-radius: var(--gdash-radius);
+    padding: 18px;
+  }
+
+  #gdash-root .gdash__bracket {
+    min-width: 1080px;
+    display: grid;
+    grid-template-columns: 320px 320px 320px;
+    column-gap: 42px;
+    align-items: start;
+  }
+
+  #gdash-root .gdash__round {
+    min-width: 0;
+  }
+
+  #gdash-root .gdash__round-title {
+    height: 28px;
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.2;
+    color: var(--gdash-muted);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  #gdash-root .gdash__round-inner {
+    position: relative;
+    min-height: 560px;
+  }
+
+  #gdash-root .gdash__round--quarter .gdash__match {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(1) { top: 0; }
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(2) { top: 140px; }
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(3) { top: 300px; }
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(4) { top: 440px; }
+
+  #gdash-root .gdash__round--semi .gdash__match {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+
+  #gdash-root .gdash__round--semi .gdash__match:nth-child(1) { top: 70px; }
+  #gdash-root .gdash__round--semi .gdash__match:nth-child(2) { top: 370px; }
+
+  #gdash-root .gdash__round--final .gdash__match {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 220px;
+  }
+
+  #gdash-root .gdash__match {
+    background: var(--gdash-panel);
+    border: 1px solid var(--gdash-line);
+    border-radius: 12px;
+    overflow: visible;
+    box-shadow: 0 8px 20px rgba(17, 24, 39, 0.04);
+  }
+
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(1)::after,
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(2)::after,
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(3)::after,
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(4)::after,
+  #gdash-root .gdash__round--semi .gdash__match:nth-child(1)::after,
+  #gdash-root .gdash__round--semi .gdash__match:nth-child(2)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -42px;
+    width: 42px;
+    height: 1px;
+    background: var(--gdash-line-dark);
+  }
+
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(1)::before,
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(2)::before,
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(3)::before,
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(4)::before {
+    content: "";
+    position: absolute;
+    right: -42px;
+    width: 1px;
+    background: var(--gdash-line-dark);
+  }
+
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(1)::before {
+    top: 50%;
+    height: 140px;
+  }
+
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(2)::before {
+    bottom: 50%;
+    height: 140px;
+  }
+
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(3)::before {
+    top: 50%;
+    height: 140px;
+  }
+
+  #gdash-root .gdash__round--quarter .gdash__match:nth-child(4)::before {
+    bottom: 50%;
+    height: 140px;
+  }
+
+  #gdash-root .gdash__round--semi .gdash__match:nth-child(1)::before,
+  #gdash-root .gdash__round--semi .gdash__match:nth-child(2)::before {
+    content: "";
+    position: absolute;
+    right: -42px;
+    width: 1px;
+    background: var(--gdash-line-dark);
+  }
+
+  #gdash-root .gdash__round--semi .gdash__match:nth-child(1)::before {
+    top: 50%;
+    height: 300px;
+  }
+
+  #gdash-root .gdash__round--semi .gdash__match:nth-child(2)::before {
+    bottom: 50%;
+    height: 300px;
+  }
+
+  #gdash-root .gdash__match-name {
+    padding: 8px 11px;
+    border-bottom: 1px solid var(--gdash-line);
+    font-size: 12px;
+    color: var(--gdash-muted);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  #gdash-root .gdash__team-row {
+    display: grid;
+    grid-template-columns: 30px 1fr auto;
+    align-items: center;
+    gap: 9px;
+    min-height: 48px;
+    padding: 8px 11px;
+    background: var(--gdash-lose);
+    border-bottom: 1px solid var(--gdash-line);
+  }
+
+  #gdash-root .gdash__team-row:last-child {
+    border-bottom: 0;
+  }
+
+  #gdash-root .gdash__team-row.is-winner {
+    background: var(--gdash-win);
+  }
+
+  #gdash-root .gdash__team-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #eef0f3;
+    border: 1px solid var(--gdash-line);
+  }
+
+  #gdash-root .gdash__team-main {
+    min-width: 0;
+  }
+
+  #gdash-root .gdash__team-name-line {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+  }
+
+  #gdash-root .gdash__flag {
+    font-size: 13px;
+    line-height: 1;
+    flex: 0 0 auto;
+  }
+
+  #gdash-root .gdash__team-name {
+    min-width: 0;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    line-height: 1.25;
+    font-weight: 800;
+    color: var(--gdash-text);
+  }
+
+  #gdash-root .gdash__games {
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.2;
+    color: var(--gdash-muted);
+  }
+
+  #gdash-root .gdash__score {
+    min-width: 36px;
+    height: 28px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: #ffffff;
+    border: 1px solid var(--gdash-line);
+    color: var(--gdash-text);
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  #gdash-root .gdash__third-place {
+    margin-top: 16px;
+    background: var(--gdash-panel);
+    border: 1px solid var(--gdash-line);
+    border-radius: var(--gdash-radius);
+    padding: 16px;
+  }
+
+  #gdash-root .gdash__third-title {
+    margin: 0 0 10px;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 800;
+  }
+
+  #gdash-root .gdash__third-layout {
+    max-width: 430px;
+  }
+
+  #gdash-root .gdash__third-layout .gdash__match::before,
+  #gdash-root .gdash__third-layout .gdash__match::after {
+    display: none;
+  }
+
+  #gdash-root .gdash__teams-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  #gdash-root .gdash__team-card {
+    background: var(--gdash-panel);
+    border: 1px solid var(--gdash-line);
+    border-radius: 12px;
+    padding: 14px;
+    display: grid;
+    gap: 12px;
+  }
+
+  #gdash-root .gdash__team-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #gdash-root .gdash__team-card-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid var(--gdash-line);
+    background: #eef0f3;
+  }
+
+  #gdash-root .gdash__team-card-name {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.2;
+    font-weight: 800;
+  }
+
+  #gdash-root .gdash__team-card-meta {
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--gdash-muted);
+  }
+
+  @media (max-width: 980px) {
+    #gdash-root .gdash__header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    #gdash-root .gdash__nav {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #gdash-root .gdash__nav-btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    #gdash-root .gdash__main {
+      padding: 18px;
+    }
+
+    #gdash-root .gdash__info-grid,
+    #gdash-root .gdash__teams-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #gdash-root .gdash__tournament-head,
+    #gdash-root .gdash__topbar,
+    #gdash-root .gdash__section-head {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    #gdash-root .gdash__section-text {
+      text-align: left;
+    }
+
+    #gdash-root .gdash__control {
+      min-width: 0;
+    }
+
+    #gdash-root .gdash__bracket-wrap {
+      padding: 14px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    #gdash-root .gdash__shell {
+      border-radius: 14px;
+    }
+
+    #gdash-root .gdash__header {
+      padding: 14px;
+    }
+
+    #gdash-root .gdash__brand-subtitle {
+      display: none;
+    }
+
+    #gdash-root .gdash__title {
+      font-size: 24px;
+    }
+
+    #gdash-root .gdash__tournament-title {
+      font-size: 26px;
+    }
+
+    #gdash-root .gdash__info-grid,
+    #gdash-root .gdash__teams-grid {
+      grid-template-columns: 1fr;
+    }
+  }
