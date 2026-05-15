@@ -1,6 +1,8 @@
 body {
   margin: 0;
   background: #080b12;
+  color: #f3f6fb;
+  scroll-behavior: smooth;
 }
 
 #gdash-root.gdash {
@@ -11,12 +13,10 @@ body {
   --text: #f3f6fb;
   --muted: #8d98ad;
   --line: #273244;
-  --line-dark: #526076;
   --green-bg: rgba(34, 197, 94, 0.14);
   --green-text: #86efac;
   --red-bg: rgba(239, 68, 68, 0.13);
   --red-text: #fca5a5;
-  --dark: #080b12;
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
@@ -34,11 +34,11 @@ body {
 #gdash-root .gdash__shell {
   width: 100%;
   min-height: 100vh;
-  background: radial-gradient(circle at 20% 0%, rgba(59, 130, 246, 0.12), transparent 34%), var(--bg);
+  background: radial-gradient(circle at 20% 0%, rgba(59, 130, 246, 0.10), transparent 34%), var(--bg);
 }
 
 #gdash-root .gdash__header {
-  min-height: 72px;
+  min-height: 76px;
   padding: 16px 28px;
   background: rgba(8, 11, 18, 0.96);
   color: var(--text);
@@ -81,12 +81,19 @@ body {
   color: var(--muted);
 }
 
+#gdash-root .gdash__header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 #gdash-root .gdash__nav {
   display: flex;
   gap: 8px;
 }
 
-#gdash-root .gdash__nav-btn {
+#gdash-root .gdash__nav-btn,
+#gdash-root .gdash__order-btn {
   height: 40px;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -99,8 +106,15 @@ body {
   cursor: pointer;
 }
 
+#gdash-root .gdash__order-btn {
+  background: #f3f6fb;
+  color: #080b12;
+  border-color: #f3f6fb;
+}
+
 #gdash-root .gdash__nav-btn.is-active,
-#gdash-root .gdash__nav-btn:hover {
+#gdash-root .gdash__nav-btn:hover,
+#gdash-root .gdash__order-btn:hover {
   background: #f3f6fb;
   color: #080b12;
   border-color: #f3f6fb;
@@ -123,12 +137,14 @@ body {
   grid-template-columns: minmax(0, 1fr) 260px;
   gap: 14px;
   align-items: stretch;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
 }
 
 #gdash-root .gdash__hero-main,
 #gdash-root .gdash__winner-card,
-#gdash-root .gdash__panel {
+#gdash-root .gdash__team-card,
+#gdash-root .gdash__stage-card,
+#gdash-root .gdash__status-card {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -141,7 +157,7 @@ body {
 #gdash-root .gdash__eyebrow {
   font-size: 12px;
   line-height: 1.2;
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 900;
   color: var(--muted);
@@ -181,40 +197,8 @@ body {
   line-height: 1.2;
 }
 
-#gdash-root .gdash__info-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 22px;
-}
-
-#gdash-root .gdash__info-card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 13px;
-  min-width: 0;
-}
-
-#gdash-root .gdash__info-label {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.2;
-  font-weight: 800;
-}
-
-#gdash-root .gdash__info-value {
-  display: block;
-  font-size: 14px;
-  line-height: 1.3;
-  font-weight: 800;
-  color: var(--text);
-}
-
 #gdash-root .gdash__section {
-  margin-top: 22px;
+  margin-top: 24px;
 }
 
 #gdash-root .gdash__section-head {
@@ -241,36 +225,31 @@ body {
   text-align: right;
 }
 
-#gdash-root .gdash__stage-grid {
+#gdash-root .gdash__stage-grid,
+#gdash-root .gdash__status-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
 #gdash-root .gdash__stage-card {
-  min-width: 0;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 16px;
   overflow: hidden;
 }
 
-#gdash-root .gdash__stage-top {
-  padding: 14px;
+#gdash-root .gdash__stage-top,
+#gdash-root .gdash__status-title,
+#gdash-root .gdash__bracket-match-title {
+  padding: 12px 14px;
   background: var(--panel-soft);
   border-bottom: 1px solid var(--line);
 }
 
-#gdash-root .gdash__stage-title {
+#gdash-root .gdash__stage-title,
+#gdash-root .gdash__status-title {
   margin: 0;
   font-size: 18px;
   line-height: 1.2;
   font-weight: 900;
-}
-
-#gdash-root .gdash__stage-meta,
-#gdash-root .gdash__pill {
-  display: none;
 }
 
 #gdash-root .gdash__round {
@@ -282,14 +261,20 @@ body {
   border-bottom: 0;
 }
 
-#gdash-root .gdash__round-title {
+#gdash-root .gdash__round-title,
+#gdash-root .gdash__bracket-round-title {
   margin: 0 0 8px;
   color: var(--muted);
   font-size: 12px;
   line-height: 1.2;
   text-transform: uppercase;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
   font-weight: 900;
+}
+
+#gdash-root .gdash__bracket-round-title {
+  height: 26px;
+  margin-bottom: 12px;
 }
 
 #gdash-root .gdash__round-subtitle {
@@ -301,14 +286,15 @@ body {
   font-weight: 800;
 }
 
-#gdash-root .gdash__match-list {
+#gdash-root .gdash__match-list,
+#gdash-root .gdash__status-list {
   display: grid;
   gap: 7px;
 }
 
 #gdash-root .gdash__match-row {
   display: grid;
-  grid-template-columns: 72px minmax(0, 1fr) 46px minmax(0, 1fr);
+  grid-template-columns: 72px minmax(0, 1fr) 52px minmax(0, 1fr);
   gap: 8px;
   align-items: center;
   min-height: 38px;
@@ -338,35 +324,58 @@ body {
 }
 
 #gdash-root .gdash__team-tag.is-winner {
-  border-color: rgba(134, 239, 172, 0.5);
+  border-color: rgba(134, 239, 172, 0.45);
   background: var(--green-bg);
 }
 
 #gdash-root .gdash__team-logo {
-  width: 22px;
-  height: 22px;
-  flex: 0 0 22px;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
   border-radius: 6px;
+  border: 1px solid var(--line);
+  background: #1c2433;
+  overflow: hidden;
   display: grid;
   place-items: center;
-  background: #1f2937;
-  border: 1px solid var(--line);
+}
+
+#gdash-root .gdash__team-logo--big {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 10px;
+}
+
+#gdash-root .gdash__team-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+#gdash-root .gdash__team-logo-fallback {
   color: var(--muted);
   font-size: 8px;
   line-height: 1;
   font-weight: 900;
-  overflow: hidden;
 }
 
 #gdash-root .gdash__team-name,
-#gdash-root .gdash__bracket-team-name {
+#gdash-root .gdash__bracket-team-name,
+#gdash-root .gdash__status-team,
+#gdash-root .gdash__team-card-name {
   min-width: 0;
-  font-size: 13px;
-  line-height: 1.2;
-  font-weight: 900;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+#gdash-root .gdash__team-card-name {
+  font-size: 14px;
 }
 
 #gdash-root .gdash__team-tag.is-winner .gdash__team-name,
@@ -374,7 +383,9 @@ body {
   color: var(--green-text);
 }
 
-#gdash-root .gdash__score {
+#gdash-root .gdash__score,
+#gdash-root .gdash__status-score,
+#gdash-root .gdash__bracket-score {
   height: 28px;
   display: grid;
   place-items: center;
@@ -386,34 +397,6 @@ body {
   line-height: 1;
   font-weight: 900;
   white-space: nowrap;
-}
-
-#gdash-root .gdash__status-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 12px;
-}
-
-#gdash-root .gdash__status-card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-#gdash-root .gdash__status-title {
-  margin: 0;
-  padding: 13px 14px;
-  background: var(--panel-soft);
-  border-bottom: 1px solid var(--line);
-  font-size: 16px;
-  line-height: 1.2;
-  font-weight: 900;
-}
-
-#gdash-root .gdash__status-list {
-  display: grid;
 }
 
 #gdash-root .gdash__status-row {
@@ -445,51 +428,38 @@ body {
   text-align: center;
 }
 
-#gdash-root .gdash__status-team {
-  min-width: 0;
-  font-size: 13px;
-  line-height: 1.2;
-  font-weight: 800;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-#gdash-root .gdash__status-score {
-  height: 26px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel-deep);
-  font-size: 12px;
-  font-weight: 900;
-}
-
 #gdash-root .gdash__bracket-wrap {
   position: relative;
   overflow-x: auto;
-  background: var(--panel);
+  overflow-y: hidden;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 18px;
+  isolation: isolate;
+  background: #0a1018;
+}
+
+#gdash-root .gdash__playoff-bg {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(8, 11, 18, 0.74), rgba(8, 11, 18, 0.82)), url("https://optim.tildacdn.com/tild3334-3364-4733-b930-323035373432/-/format/webp/Counter_Strike_2.webp");
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+#gdash-root .gdash__bracket,
+#gdash-root .gdash__bracket-lines {
+  position: relative;
+  z-index: 1;
 }
 
 #gdash-root .gdash__bracket {
-  position: relative;
   min-width: 980px;
   display: grid;
   grid-template-columns: 280px 280px 280px;
   column-gap: 70px;
   align-items: start;
-  z-index: 2;
-}
-
-#gdash-root .gdash__bracket-lines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
 }
 
 #gdash-root .gdash__bracket-col {
@@ -497,64 +467,24 @@ body {
   min-height: 560px;
 }
 
-#gdash-root .gdash__bracket-round-title {
-  height: 26px;
-  margin: 0 0 12px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.2;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-}
-
 #gdash-root .gdash__bracket-card {
   position: absolute;
   left: 0;
   right: 0;
-  background: var(--panel-deep);
+  background: rgba(11, 16, 26, 0.92);
+  backdrop-filter: blur(2px);
   border: 1px solid var(--line);
   border-radius: 12px;
   overflow: hidden;
 }
 
-#gdash-root .gdash__bracket-card[data-pos="q1"] {
-  top: 0;
-}
-
-#gdash-root .gdash__bracket-card[data-pos="q2"] {
-  top: 140px;
-}
-
-#gdash-root .gdash__bracket-card[data-pos="q3"] {
-  top: 300px;
-}
-
-#gdash-root .gdash__bracket-card[data-pos="q4"] {
-  top: 440px;
-}
-
-#gdash-root .gdash__bracket-card[data-pos="s1"] {
-  top: 80px;
-}
-
-#gdash-root .gdash__bracket-card[data-pos="s2"] {
-  top: 380px;
-}
-
-#gdash-root .gdash__bracket-card[data-pos="f1"] {
-  top: 230px;
-}
-
-#gdash-root .gdash__bracket-match-title {
-  padding: 8px 10px;
-  border-bottom: 1px solid var(--line);
-  color: var(--muted);
-  background: var(--panel-soft);
-  font-size: 12px;
-  line-height: 1.2;
-  font-weight: 900;
-}
+#gdash-root .gdash__bracket-card[data-pos="q1"] { top: 0; }
+#gdash-root .gdash__bracket-card[data-pos="q2"] { top: 140px; }
+#gdash-root .gdash__bracket-card[data-pos="q3"] { top: 300px; }
+#gdash-root .gdash__bracket-card[data-pos="q4"] { top: 440px; }
+#gdash-root .gdash__bracket-card[data-pos="s1"] { top: 80px; }
+#gdash-root .gdash__bracket-card[data-pos="s2"] { top: 380px; }
+#gdash-root .gdash__bracket-card[data-pos="f1"] { top: 230px; }
 
 #gdash-root .gdash__bracket-team {
   display: grid;
@@ -571,19 +501,7 @@ body {
 }
 
 #gdash-root .gdash__bracket-team.is-winner {
-  background: rgba(34, 197, 94, 0.08);
-}
-
-#gdash-root .gdash__bracket-score {
-  height: 28px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel-soft);
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 900;
+  background: rgba(34, 197, 94, 0.10);
 }
 
 #gdash-root .gdash__team-grid {
@@ -593,17 +511,13 @@ body {
 }
 
 #gdash-root .gdash__team-card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 12px;
   padding: 12px;
 }
 
-#gdash-root .gdash__team-card-name {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.25;
-  font-weight: 900;
+#gdash-root .gdash__team-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 #gdash-root .gdash__team-card-meta {
@@ -628,7 +542,8 @@ body {
 @media (max-width: 760px) {
   #gdash-root .gdash__header,
   #gdash-root .gdash__hero,
-  #gdash-root .gdash__section-head {
+  #gdash-root .gdash__section-head,
+  #gdash-root .gdash__header-right {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -639,7 +554,8 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  #gdash-root .gdash__nav-btn {
+  #gdash-root .gdash__nav-btn,
+  #gdash-root .gdash__order-btn {
     width: 100%;
   }
 
@@ -651,7 +567,6 @@ body {
     font-size: 28px;
   }
 
-  #gdash-root .gdash__info-grid,
   #gdash-root .gdash__team-grid {
     grid-template-columns: 1fr;
   }
@@ -661,6 +576,6 @@ body {
   }
 
   #gdash-root .gdash__match-row {
-    grid-template-columns: 62px minmax(0, 1fr) 44px minmax(0, 1fr);
+    grid-template-columns: 62px minmax(0, 1fr) 48px minmax(0, 1fr);
   }
 }

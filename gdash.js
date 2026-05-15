@@ -497,32 +497,124 @@ const GDASH_DATA = {
 (function () {
   const root = document.getElementById("gdash-root");
   if (!root) return;
+
   root.innerHTML = `
     <div class="gdash__shell">
       <header class="gdash__header">
-        <div class="gdash__brand"><div class="gdash__brand-mark">G</div><div><div class="gdash__brand-title">Game Dashboard</div><div class="gdash__brand-subtitle">2025 Tournament</div></div></div>
-        <nav class="gdash__nav"><button class="gdash__nav-btn is-active" data-page="tournament">Турнир</button><button class="gdash__nav-btn" data-page="teams">Команды</button></nav>
+        <div class="gdash__brand">
+          <div class="gdash__brand-mark">G</div>
+          <div>
+            <div class="gdash__brand-title">Game Dashboard</div>
+            <div class="gdash__brand-subtitle">Austin Major 2025</div>
+          </div>
+        </div>
+        <div class="gdash__header-right">
+          <nav class="gdash__nav">
+            <button class="gdash__nav-btn is-active" data-page="tournament">Турнир</button>
+            <button class="gdash__nav-btn" data-page="teams">Команды</button>
+          </nav>
+          <button class="gdash__order-btn" type="button">Заказать сетку на сайт</button>
+        </div>
       </header>
       <main class="gdash__main">
         <section class="gdash__page is-active" data-page-content="tournament">
           <div class="gdash__hero">
-            <div class="gdash__hero-main"><div class="gdash__eyebrow">CS2 Major 2025</div><h1 class="gdash__title">BLAST.tv Austin Major 2025</h1><p class="gdash__desc">Турнир 2025: сначала три этапа по швейцарской системе, затем плей-офф single-elimination.</p></div>
+            <div class="gdash__hero-main">
+              <div class="gdash__eyebrow">CS2 Major 2025</div>
+              <h1 class="gdash__title">BLAST.tv Austin Major 2025</h1>
+              <p class="gdash__desc">Путь турнира 2025: плей-офф, все игры этапов 1–3 и итоги этапов.</p>
+            </div>
             <div class="gdash__winner-card"><span>Победитель</span><strong>Team Vitality</strong></div>
           </div>
-          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Плей-офф</h2><p class="gdash__section-text">Сетка single-elimination: 1/4 финала, полуфинал, финал. Все матчи best-of-3.</p></div><div class="gdash__bracket-wrap" id="gdash-bracket-wrap"><svg class="gdash__bracket-lines" id="gdash-lines"></svg><div class="gdash__bracket" id="gdash-bracket"></div></div></section>
-          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Итоги этапов</h2><p class="gdash__section-text">Зеленым отмечены команды, которые прошли дальше. Красным — команды, которые выбыли.</p></div><div class="gdash__status-grid" id="gdash-status"></div></section>
-          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Все игры</h2><p class="gdash__section-text">Все матчи этапов 1–3 по раундам. В строке показан один итоговый счет конкретной игры.</p></div><div class="gdash__stage-grid" id="gdash-stages"></div></section>
+
+          <section class="gdash__section gdash__section--playoff">
+            <div class="gdash__section-head">
+              <h2 class="gdash__section-title">Плей-офф</h2>
+            </div>
+            <div class="gdash__bracket-wrap" id="gdash-bracket-wrap">
+              <div class="gdash__playoff-bg"></div>
+              <svg class="gdash__bracket-lines" id="gdash-lines"></svg>
+              <div class="gdash__bracket" id="gdash-bracket"></div>
+            </div>
+          </section>
+
+          <section class="gdash__section">
+            <div class="gdash__section-head">
+              <h2 class="gdash__section-title">Все игры</h2>
+              <p class="gdash__section-text">Все матчи этапов 1–3 по раундам.</p>
+            </div>
+            <div class="gdash__stage-grid" id="gdash-stages"></div>
+          </section>
+
+          <section class="gdash__section">
+            <div class="gdash__section-head">
+              <h2 class="gdash__section-title">Итоги этапов</h2>
+              <p class="gdash__section-text">Зеленым отмечены команды, которые прошли дальше. Красным — команды, которые выбыли.</p>
+            </div>
+            <div class="gdash__status-grid" id="gdash-status"></div>
+          </section>
         </section>
-        <section class="gdash__page" data-page-content="teams"><section class="gdash__section" style="margin-top:0"><div class="gdash__section-head"><h2 class="gdash__section-title">Команды</h2><p class="gdash__section-text">Все команды, которые встречаются в этапах и плей-офф.</p></div><div class="gdash__team-grid" id="gdash-teams"></div></section></section>
+
+        <section class="gdash__page" data-page-content="teams">
+          <section class="gdash__section" style="margin-top:0">
+            <div class="gdash__section-head">
+              <h2 class="gdash__section-title">Команды</h2>
+              <p class="gdash__section-text">Все команды, которые встречаются в этапах и плей-офф.</p>
+            </div>
+            <div class="gdash__team-grid" id="gdash-teams"></div>
+          </section>
+        </section>
       </main>
     </div>`;
 
-  function winner(match) {
-    const [sa, sb] = match.score.split(":").map(Number);
-    if (sa > sb) return match.a;
-    if (sb > sa) return match.b;
-    return "";
-  }
+  const TEAM_LOGOS = {
+    "3DMAX": "https://optim.tildacdn.com/tild6561-3130-4364-a533-346232666435/-/format/webp/3DMAX.png.webp",
+    "Astralis": "https://optim.tildacdn.com/tild6162-6139-4763-b932-383638333634/-/format/webp/Astralis.png.webp",
+    "Aurora Gaming": "https://optim.tildacdn.com/tild3361-3461-4736-b463-353230346536/-/format/webp/Aurora_Gaming.png.webp",
+    "Aurora": "https://optim.tildacdn.com/tild3361-3461-4736-b463-353230346536/-/format/webp/Aurora_Gaming.png.webp",
+    "B8": "https://optim.tildacdn.com/tild3735-6231-4733-a263-653232623339/-/format/webp/B8.png.webp",
+    "FaZe Clan": "https://optim.tildacdn.com/tild6638-3965-4662-a561-646461636335/-/contain/480x480/center/center/-/format/webp/FaZe_Clan.png.webp",
+    "FaZe": "https://optim.tildacdn.com/tild6638-3965-4662-a561-646461636335/-/contain/480x480/center/center/-/format/webp/FaZe_Clan.png.webp",
+    "Fluxo": "https://optim.tildacdn.com/tild3536-3131-4737-a130-383634376432/-/contain/480x480/center/center/-/format/webp/Fluxo.png.webp",
+    "FlyQuest": "https://optim.tildacdn.com/tild3930-3830-4533-b666-646231326333/-/format/webp/FlyQuest.png.webp",
+    "Fnatic": "https://optim.tildacdn.com/tild3666-3136-4563-a665-376633333132/-/format/webp/Fnatic.png.webp",
+    "FURIA": "https://optim.tildacdn.com/tild6161-3865-4965-b161-303834333934/-/format/webp/FURIA.png.webp",
+    "FURIA Esports": "https://optim.tildacdn.com/tild6161-3865-4965-b161-303834333934/-/format/webp/FURIA.png.webp",
+    "G2": "https://optim.tildacdn.com/tild6230-6338-4536-b830-663939353434/-/contain/480x480/center/center/-/format/webp/G2_Esports.png.webp",
+    "G2 Esports": "https://optim.tildacdn.com/tild6230-6338-4536-b830-663939353434/-/contain/480x480/center/center/-/format/webp/G2_Esports.png.webp",
+    "GamerLegion": "https://optim.tildacdn.com/tild3737-3838-4339-b733-376638333638/-/contain/480x480/center/center/-/format/webp/GamerLegion.png.webp",
+    "Imperial": "https://optim.tildacdn.com/tild3133-6662-4664-a236-353132653430/-/contain/480x480/center/center/-/format/webp/Imperial_Esports.png.webp",
+    "Imperial Esports": "https://optim.tildacdn.com/tild3133-6662-4664-a236-353132653430/-/contain/480x480/center/center/-/format/webp/Imperial_Esports.png.webp",
+    "Legacy": "https://optim.tildacdn.com/tild3436-3639-4535-b839-626638353331/-/contain/480x480/center/center/-/format/webp/Legacy.png.webp",
+    "Lynn Vision": "https://optim.tildacdn.com/tild3664-6336-4636-b364-303434373761/-/contain/480x480/center/center/-/format/webp/Lynn_Vision_Gaming.png.webp",
+    "Lynn Vision Gaming": "https://optim.tildacdn.com/tild3664-6336-4636-b364-303434373761/-/contain/480x480/center/center/-/format/webp/Lynn_Vision_Gaming.png.webp",
+    "M80": "https://optim.tildacdn.com/tild3566-3738-4365-b430-393138663961/-/contain/480x480/center/center/-/format/webp/M80.png.webp",
+    "MIBR": "https://optim.tildacdn.com/tild6563-6465-4431-b964-373264373564/-/contain/480x480/center/center/-/format/webp/MIBR.png.webp",
+    "MOUZ": "https://optim.tildacdn.com/tild6561-3733-4833-b838-303739656436/-/contain/480x480/center/center/-/format/webp/MOUZ.png.webp",
+    "Natus Vincere": "https://optim.tildacdn.com/tild3733-6462-4462-b933-326635343939/-/contain/480x480/center/center/-/format/webp/Natus_Vincere.png.webp",
+    "NAVI": "https://optim.tildacdn.com/tild3733-6462-4462-b933-326635343939/-/contain/480x480/center/center/-/format/webp/Natus_Vincere.png.webp",
+    "Ninjas in Pyjamas": "https://optim.tildacdn.com/tild3866-6262-4636-b061-306436336166/-/contain/480x480/center/center/-/format/webp/Ninjas_in_Pyjamas.png.webp",
+    "NRG": "https://optim.tildacdn.com/tild3233-3837-4564-b131-623963666261/-/contain/480x480/center/center/-/format/webp/NRG.png.webp",
+    "paiN": "https://optim.tildacdn.com/tild3761-3532-4432-b337-633031313262/-/contain/480x480/center/center/-/format/webp/paiN_Gaming.png.webp",
+    "paiN Gaming": "https://optim.tildacdn.com/tild3761-3532-4432-b337-633031313262/-/contain/480x480/center/center/-/format/webp/paiN_Gaming.png.webp",
+    "PARIVISION": "https://optim.tildacdn.com/tild3238-3662-4761-b838-346434326265/-/contain/480x480/center/center/-/format/webp/PARIVISION.png.webp",
+    "Passion UA": "https://optim.tildacdn.com/tild3066-6337-4562-b162-383163333163/-/contain/480x480/center/center/-/format/webp/Passion_UA.png.webp",
+    "Rare Atom": "https://optim.tildacdn.com/tild3165-3632-4032-b831-383035303532/-/contain/480x480/center/center/-/format/webp/Rare_Atom.png.webp",
+    "RED Canids": "https://optim.tildacdn.com/tild3562-3930-4361-b631-376631636434/-/contain/480x480/center/center/-/format/webp/RED_Canids.png.webp",
+    "Team Falcons": "https://optim.tildacdn.com/tild6264-3430-4337-a632-393035613261/-/contain/480x480/center/center/-/format/webp/Team_Falcons.png.webp",
+    "Falcons": "https://optim.tildacdn.com/tild6264-3430-4337-a632-393035613261/-/contain/480x480/center/center/-/format/webp/Team_Falcons.png.webp",
+    "Team Liquid": "https://optim.tildacdn.com/tild3030-3935-4061-b266-366161373233/-/contain/480x480/center/center/-/format/webp/Team_Liquid.png.webp",
+    "Liquid": "https://optim.tildacdn.com/tild3030-3935-4061-b266-366161373233/-/contain/480x480/center/center/-/format/webp/Team_Liquid.png.webp",
+    "Team Spirit": "https://optim.tildacdn.com/tild6565-6438-4264-b332-326665323861/-/contain/480x480/center/center/-/format/webp/Team_Spirit.png.webp",
+    "Spirit": "https://optim.tildacdn.com/tild6565-6438-4264-b332-326665323861/-/contain/480x480/center/center/-/format/webp/Team_Spirit.png.webp",
+    "Team Vitality": "https://optim.tildacdn.com/tild3261-6165-4866-b462-346633383039/-/contain/480x480/center/center/-/format/webp/Team_Vitality.png.webp",
+    "Vitality": "https://optim.tildacdn.com/tild3261-6165-4866-b462-346633383039/-/contain/480x480/center/center/-/format/webp/Team_Vitality.png.webp",
+    "The Huns Esports": "https://optim.tildacdn.com/tild3962-6661-4666-b163-346435343734/-/contain/480x480/center/center/-/format/webp/The_Huns_Esports.png.webp",
+    "The MongolZ": "https://optim.tildacdn.com/tild3833-6666-4734-b334-363534333363/-/contain/480x480/center/center/-/format/webp/The_MongolZ.png.webp",
+    "Mongolz": "https://optim.tildacdn.com/tild3833-6666-4734-b334-363534333363/-/contain/480x480/center/center/-/format/webp/The_MongolZ.png.webp",
+    "TYLOO": "https://optim.tildacdn.com/tild6663-3663-4363-a564-306131386234/-/format/webp/TYLOO.png.webp"
+  };
+
   function logoText(name) {
     return String(name || "")
       .replace(/[^a-zA-Zа-яА-Я0-9 ]/g, "")
@@ -533,118 +625,122 @@ const GDASH_DATA = {
       .join("") || "T";
   }
 
-  function renderTeamTag(name, isWinner) {
-    return `<div class="gdash__team-tag ${isWinner ? "is-winner" : ""}"><div class="gdash__team-logo">${logoText(name)}</div><span class="gdash__team-name">${name}</span></div>`;
+  function renderLogo(name) {
+    const src = TEAM_LOGOS[name] || "";
+    if (src) {
+      return `<img class="gdash__team-logo-img" src="${src}" alt="${name}">`;
+    }
+    return `<span class="gdash__team-logo-fallback">${logoText(name)}</span>`;
   }
 
-  function renderMatch(m) {
-    const w = winner(m);
-    return `<div class="gdash__match-row"><div class="gdash__match-time">${m.time}</div>${renderTeamTag(m.a, w === m.a)}<div class="gdash__score">${m.score}</div>${renderTeamTag(m.b, w === m.b)}</div>`;
+  function renderTeamTag(name, isWinner) {
+    return `<div class="gdash__team-tag ${isWinner ? "is-winner" : ""}"><div class="gdash__team-logo">${renderLogo(name)}</div><span class="gdash__team-name">${name}</span></div>`;
   }
+
+  function winner(match) {
+    const [sa, sb] = match.score.split(":").map(Number);
+    if (sa > sb) return match.a;
+    if (sb > sa) return match.b;
+    return "";
+  }
+
+  function renderMatch(match) {
+    const w = winner(match);
+    return `<div class="gdash__match-row"><div class="gdash__match-time">${match.time}</div>${renderTeamTag(match.a, w === match.a)}<div class="gdash__score">${match.score}</div>${renderTeamTag(match.b, w === match.b)}</div>`;
+  }
+
   document.getElementById("gdash-stages").innerHTML = GDASH_DATA.stages
     .map(
       (stage) =>
-        `<article class="gdash__stage-card"><div class="gdash__stage-top"><h3 class="gdash__stage-title">${stage.title}</h3></div>${stage.rounds.map((r) => `<div class="gdash__round"><h4 class="gdash__round-title">${r.title}${r.group ? `<span class="gdash__round-subtitle">${r.group}</span>` : ""}</h4><div class="gdash__match-list">${r.matches.map(renderMatch).join("")}</div></div>`).join("")}</article>`,
+        `<article class="gdash__stage-card"><div class="gdash__stage-top"><h3 class="gdash__stage-title">${stage.title}</h3></div>${stage.rounds.map((round) => `<div class="gdash__round"><h4 class="gdash__round-title">${round.title}${round.group ? `<span class="gdash__round-subtitle">${round.group}</span>` : ""}</h4><div class="gdash__match-list">${round.matches.map(renderMatch).join("")}</div></div>`).join("")}</article>`,
     )
     .join("");
+
   document.getElementById("gdash-status").innerHTML = GDASH_DATA.stageStatus
     .map(
-      (list, i) =>
-        `<article class="gdash__status-card"><h3 class="gdash__status-title">Этап ${i + 1}</h3><div class="gdash__status-list">${list.map((row, idx) => `<div class="gdash__status-row ${row.in ? "is-in" : "is-out"}"><div class="gdash__place">${idx + 1}</div><div class="gdash__status-team">${row.team}</div><div class="gdash__status-score">${row.score}</div></div>`).join("")}</div></article>`,
+      (list, index) =>
+        `<article class="gdash__status-card"><h3 class="gdash__status-title">Этап ${index + 1}</h3><div class="gdash__status-list">${list.map((row, rowIndex) => `<div class="gdash__status-row ${row.in ? "is-in" : "is-out"}"><div class="gdash__place">${rowIndex + 1}</div><div class="gdash__status-team">${row.team}</div><div class="gdash__status-score">${row.score}</div></div>`).join("")}</div></article>`,
     )
     .join("");
+
   function bracketTeam(name, score, isWinner) {
-    return `<div class="gdash__bracket-team ${isWinner ? "is-winner" : ""}"><div class="gdash__team-tag ${isWinner ? "is-winner" : ""}"><div class="gdash__team-logo">${logoText(name)}</div><span class="gdash__bracket-team-name">${name}</span></div><div class="gdash__bracket-score">${score}</div></div>`;
+    return `<div class="gdash__bracket-team ${isWinner ? "is-winner" : ""}">${renderTeamTag(name, isWinner)}<div class="gdash__bracket-score">${score}</div></div>`;
   }
 
-  function bracketCard(m) {
-    return `<article class="gdash__bracket-card" data-match="${m.id}" data-pos="${m.pos}"><div class="gdash__bracket-match-title">${m.round} · ${m.time}</div>${bracketTeam(m.a, m.sa, m.winner === m.a)}${bracketTeam(m.b, m.sb, m.winner === m.b)}</article>`;
+  function bracketCard(match) {
+    return `<article class="gdash__bracket-card" data-match="${match.id}" data-pos="${match.pos}"><div class="gdash__bracket-match-title">${match.round} · ${match.time}</div>${bracketTeam(match.a, match.sa, match.winner === match.a)}${bracketTeam(match.b, match.sb, match.winner === match.b)}</article>`;
   }
-  const q = GDASH_DATA.playoff
-    .filter((m) => m.id[0] === "q")
-    .map(bracketCard)
-    .join("");
-  const s = GDASH_DATA.playoff
-    .filter((m) => m.id[0] === "s")
-    .map(bracketCard)
-    .join("");
-  const f = GDASH_DATA.playoff
-    .filter((m) => m.id[0] === "f")
-    .map(bracketCard)
-    .join("");
+
+  const quarter = GDASH_DATA.playoff.filter((match) => match.id[0] === "q").map(bracketCard).join("");
+  const semi = GDASH_DATA.playoff.filter((match) => match.id[0] === "s").map(bracketCard).join("");
+  const final = GDASH_DATA.playoff.filter((match) => match.id[0] === "f").map(bracketCard).join("");
+
   document.getElementById("gdash-bracket").innerHTML =
-    `<div><h3 class="gdash__bracket-round-title">1/4 финала</h3><div class="gdash__bracket-col">${q}</div></div><div><h3 class="gdash__bracket-round-title">Полуфинал</h3><div class="gdash__bracket-col">${s}</div></div><div><h3 class="gdash__bracket-round-title">Финал</h3><div class="gdash__bracket-col">${f}</div></div>`;
+    `<div><h3 class="gdash__bracket-round-title">1/4 финала</h3><div class="gdash__bracket-col">${quarter}</div></div><div><h3 class="gdash__bracket-round-title">Полуфинал</h3><div class="gdash__bracket-col">${semi}</div></div><div><h3 class="gdash__bracket-round-title">Финал</h3><div class="gdash__bracket-col">${final}</div></div>`;
+
   function drawLines() {
-    const wrap = document.getElementById("gdash-bracket-wrap"),
-      svg = document.getElementById("gdash-lines");
+    const wrap = document.getElementById("gdash-bracket-wrap");
+    const svg = document.getElementById("gdash-lines");
     if (!wrap || !svg) return;
-    const wr = wrap.getBoundingClientRect();
+
+    const wrapRect = wrap.getBoundingClientRect();
     svg.setAttribute("width", wrap.scrollWidth);
     svg.setAttribute("height", wrap.scrollHeight);
     svg.innerHTML = "";
-    GDASH_DATA.playoff
-      .filter((m) => m.next)
-      .forEach((m) => {
-        const a = root.querySelector(`[data-match="${m.id}"]`),
-          b = root.querySelector(`[data-match="${m.next}"]`);
-        if (!a || !b) return;
-        const ar = a.getBoundingClientRect(),
-          br = b.getBoundingClientRect();
-        const x1 = ar.right - wr.left + wrap.scrollLeft,
-          y1 = ar.top - wr.top + ar.height / 2 + wrap.scrollTop,
-          x2 = br.left - wr.left + wrap.scrollLeft,
-          y2 = br.top - wr.top + br.height / 2 + wrap.scrollTop,
-          mid = x1 + (x2 - x1) / 2;
-        const path = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "path",
-        );
-        path.setAttribute(
-          "d",
-          `M ${x1} ${y1} L ${mid} ${y1} L ${mid} ${y2} L ${x2} ${y2}`,
-        );
-        path.setAttribute("fill", "none");
-        path.setAttribute("stroke", "#9ca3af");
-        path.setAttribute("stroke-width", "1.5");
-        svg.appendChild(path);
-      });
+
+    GDASH_DATA.playoff.filter((match) => match.next).forEach((match) => {
+      const current = root.querySelector(`[data-match="${match.id}"]`);
+      const next = root.querySelector(`[data-match="${match.next}"]`);
+      if (!current || !next) return;
+
+      const currentRect = current.getBoundingClientRect();
+      const nextRect = next.getBoundingClientRect();
+      const x1 = currentRect.right - wrapRect.left + wrap.scrollLeft;
+      const y1 = currentRect.top - wrapRect.top + currentRect.height / 2 + wrap.scrollTop;
+      const x2 = nextRect.left - wrapRect.left + wrap.scrollLeft;
+      const y2 = nextRect.top - wrapRect.top + nextRect.height / 2 + wrap.scrollTop;
+      const mid = x1 + (x2 - x1) / 2;
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", `M ${x1} ${y1} L ${mid} ${y1} L ${mid} ${y2} L ${x2} ${y2}`);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "#7f8da6");
+      path.setAttribute("stroke-width", "1.5");
+      svg.appendChild(path);
+    });
   }
+
   setTimeout(drawLines, 60);
   window.addEventListener("resize", drawLines);
-  document
-    .getElementById("gdash-bracket-wrap")
-    .addEventListener("scroll", drawLines);
+  document.getElementById("gdash-bracket-wrap").addEventListener("scroll", drawLines);
+
   const teamSet = new Set();
-  GDASH_DATA.stages.forEach((st) =>
-    st.rounds.forEach((r) =>
-      r.matches.forEach((m) => {
-        teamSet.add(m.a);
-        teamSet.add(m.b);
+  GDASH_DATA.stages.forEach((stage) =>
+    stage.rounds.forEach((round) =>
+      round.matches.forEach((match) => {
+        teamSet.add(match.a);
+        teamSet.add(match.b);
       }),
     ),
   );
-  GDASH_DATA.playoff.forEach((m) => {
-    teamSet.add(m.a);
-    teamSet.add(m.b);
+  GDASH_DATA.playoff.forEach((match) => {
+    teamSet.add(match.a);
+    teamSet.add(match.b);
   });
+
   document.getElementById("gdash-teams").innerHTML = [...teamSet]
     .sort()
     .map(
-      (t) =>
-        `<article class="gdash__team-card"><h3 class="gdash__team-card-name">${t}</h3><div class="gdash__team-card-meta">Участник турнира 2025</div></article>`,
+      (team) =>
+        `<article class="gdash__team-card"><div class="gdash__team-card-head"><div class="gdash__team-logo gdash__team-logo--big">${renderLogo(team)}</div><div><h3 class="gdash__team-card-name">${team}</h3><div class="gdash__team-card-meta">Участник турнира 2025</div></div></div></article>`,
     )
     .join("");
-  root.querySelectorAll(".gdash__nav-btn").forEach((btn) =>
-    btn.addEventListener("click", () => {
-      const page = btn.dataset.page;
-      root
-        .querySelectorAll(".gdash__nav-btn")
-        .forEach((b) => b.classList.toggle("is-active", b === btn));
-      root
-        .querySelectorAll(".gdash__page")
-        .forEach((s) =>
-          s.classList.toggle("is-active", s.dataset.pageContent === page),
-        );
+
+  root.querySelectorAll(".gdash__nav-btn").forEach((button) =>
+    button.addEventListener("click", () => {
+      const page = button.dataset.page;
+      root.querySelectorAll(".gdash__nav-btn").forEach((item) => item.classList.toggle("is-active", item === button));
+      root.querySelectorAll(".gdash__page").forEach((section) => section.classList.toggle("is-active", section.dataset.pageContent === page));
       setTimeout(drawLines, 60);
     }),
   );
