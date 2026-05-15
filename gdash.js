@@ -53,6 +53,8 @@
 
           <div class="gdash__info-grid" id="gdash-info-grid"></div>
 
+          <div class="gdash__stages" id="gdash-stages"></div>
+
           <div class="gdash__section-head">
             <h3 class="gdash__section-title">Основная сетка</h3>
             <p class="gdash__section-text">В файле есть победитель, второе место и полуфиналисты. Полная 1/4 сетка и точные счета в исходнике не указаны, поэтому недостающие пары отмечены как заглушки.</p>
@@ -115,7 +117,94 @@
     { version:'CS2', year:'2024', title:'Perfect World Shanghai Major 2024', date:'1 декабря — 15 декабря 2024', organizer:'Perfect World Esports', prize:'1 250 000 $', mvp:'Donk', city:'Шанхай', cityFlag:'CN', winner:{name:'Team Spirit', flag:'RU'}, second:{name:'FaZe Clan', flag:'EU'}, semi:[{name:'MOUZ', flag:'EU'}, {name:'G2 Esports', flag:'EU'}] },
 
     { version:'CS2', year:'2025', title:'Blast Austin Major 2025', date:'3 июня — 22 июня 2025', organizer:'BLAST Premier', prize:'1 250 000 $', mvp:'ZywOo', city:'Остин', cityFlag:'US', winner:{name:'Team Vitality', flag:'EU'}, second:{name:'The MongolZ', flag:'MN'}, semi:[{name:'MOUZ', flag:'EU'}, {name:'paiN', flag:'BR'}] },
-    { version:'CS2', year:'2025', title:'StarLadder Budapest Major 2025', date:'24 ноября — 14 декабря 2025', organizer:'StarLadder', prize:'1 250 000 $', mvp:'ZywOo', city:'Будапешт', cityFlag:'HU', winner:{name:'Team Vitality', flag:'EU'}, second:{name:'FaZe Clan', flag:'EU'}, semi:[{name:'Team Spirit', flag:'RU'}, {name:'Natus Vincere', flag:'EU'}] },
+    { 
+      version:'CS2', 
+      year:'2025', 
+      title:'StarLadder Budapest Major 2025', 
+      date:'24 ноября — 14 декабря 2025', 
+      organizer:'StarLadder', 
+      prize:'1 250 000 $', 
+      mvp:'ZywOo', 
+      city:'Будапешт', 
+      cityFlag:'HU', 
+      winner:{name:'Team Vitality', flag:'EU'}, 
+      second:{name:'FaZe Clan', flag:'EU'}, 
+      semi:[{name:'Team Spirit', flag:'RU'}, {name:'Natus Vincere', flag:'EU'}],
+      stages: [
+        {
+          title: 'Этап 1',
+          period: '24 — 27 ноября',
+          description: '16 команд. 8 лучших прошли во второй этап.',
+          qualifiedLabel: 'Прошли во второй этап',
+          teams: [
+            { name:'FlyQuest', flag:'AU', score:'3:0', qualified:true },
+            { name:'M80', flag:'US', score:'3:0', qualified:true },
+            { name:'Ninjas in Pyjamas', flag:'SE', score:'3:1', qualified:true },
+            { name:'B8', flag:'UA', score:'3:1', qualified:true },
+            { name:'Fnatic', flag:'SE', score:'3:1', qualified:true },
+            { name:'FaZe Clan', flag:'EU', score:'3:2', qualified:true },
+            { name:'Imperial Esports', flag:'BR', score:'3:2', qualified:true },
+            { name:'PARIVISION', flag:'RU', score:'3:2', qualified:true },
+            { name:'Legacy', flag:'BR', score:'2:3', qualified:false },
+            { name:'NRG', flag:'US', score:'2:3', qualified:false },
+            { name:'Fluxo', flag:'BR', score:'2:3', qualified:false },
+            { name:'GamerLegion', flag:'EU', score:'1:3', qualified:false },
+            { name:'The Huns', flag:'MN', score:'1:3', qualified:false },
+            { name:'RED Canids', flag:'BR', score:'1:3', qualified:false },
+            { name:'Rare Atom', flag:'CN', score:'0:3', qualified:false },
+            { name:'Lynn Vision', flag:'CN', score:'0:3', qualified:false }
+          ]
+        },
+        {
+          title: 'Этап 2',
+          period: '29 ноября — 2 декабря',
+          description: '8 приглашённых команд и 8 лучших команд первого этапа. 8 лучших прошли в третий этап.',
+          qualifiedLabel: 'Прошли в третий этап',
+          teams: [
+            { name:'NAVI', flag:'EU', score:'3:0', qualified:true },
+            { name:'FaZe Clan', flag:'EU', score:'3:0', qualified:true },
+            { name:'PARIVISION', flag:'RU', score:'3:1', qualified:true },
+            { name:'Imperial Esports', flag:'BR', score:'3:1', qualified:true },
+            { name:'B8', flag:'UA', score:'3:1', qualified:true },
+            { name:'3DMAX', flag:'FR', score:'3:2', qualified:true },
+            { name:'Team Liquid', flag:'US', score:'3:2', qualified:true },
+            { name:'Passion UA', flag:'UA', score:'3:2', qualified:true },
+            { name:'Astralis', flag:'DK', score:'2:3', qualified:false },
+            { name:'M80', flag:'US', score:'2:3', qualified:false },
+            { name:'Ninjas in Pyjamas', flag:'SE', score:'2:3', qualified:false },
+            { name:'Aurora', flag:'TR', score:'1:3', qualified:false },
+            { name:'Fnatic', flag:'SE', score:'1:3', qualified:false },
+            { name:'TYLOO', flag:'CN', score:'1:3', qualified:false },
+            { name:'MIBR', flag:'BR', score:'0:3', qualified:false },
+            { name:'FlyQuest', flag:'AU', score:'0:3', qualified:false }
+          ]
+        },
+        {
+          title: 'Этап 3',
+          period: '4 — 7 декабря',
+          description: '8 лучших команд прошли в плей-офф.',
+          qualifiedLabel: 'Прошли в плей-офф',
+          teams: [
+            { name:'FURIA Esports', flag:'BR', score:'3:0', qualified:true },
+            { name:'Team Spirit', flag:'RU', score:'3:0', qualified:true },
+            { name:'Team Vitality', flag:'EU', score:'3:1', qualified:true },
+            { name:'MOUZ', flag:'EU', score:'3:1', qualified:true },
+            { name:'The MongolZ', flag:'MN', score:'3:1', qualified:true },
+            { name:'Team Falcons', flag:'EU', score:'3:2', qualified:true },
+            { name:'FaZe Clan', flag:'EU', score:'3:2', qualified:true },
+            { name:'NAVI', flag:'EU', score:'3:2', qualified:true },
+            { name:'B8', flag:'UA', score:'2:3', qualified:false },
+            { name:'G2', flag:'EU', score:'2:3', qualified:false },
+            { name:'Passion UA', flag:'UA', score:'2:3', qualified:false },
+            { name:'paiN', flag:'BR', score:'1:3', qualified:false },
+            { name:'3DMAX', flag:'FR', score:'1:3', qualified:false },
+            { name:'Imperial Esports', flag:'BR', score:'1:3', qualified:false },
+            { name:'Team Liquid', flag:'US', score:'0:3', qualified:false },
+            { name:'PARIVISION', flag:'RU', score:'0:3', qualified:false }
+          ]
+        }
+      ]
+    },
 
     { version:'CS2', year:'2026', title:'IEM Cologne 2026', date:'2 июня — 21 июня 2026', organizer:'ESL', prize:'1 250 000 $', mvp:'—', city:'Кёльн', cityFlag:'DE', upcoming:true, winner:{name:'—', flag:''}, second:{name:'—', flag:''}, semi:[] }
   ];
@@ -124,7 +213,7 @@
     SE:'🇸🇪', FR:'🇫🇷', US:'🇺🇸', PL:'🇵🇱', DK:'🇩🇰', DE:'🇩🇪',
     UA:'🇺🇦', RO:'🇷🇴', CIS:'🌐', EU:'🇪🇺', BR:'🇧🇷', KZ:'🇰🇿',
     GB:'🇬🇧', FI:'🇫🇮', AU:'🇦🇺', RU:'🇷🇺', BE:'🇧🇪', CN:'🇨🇳',
-    MN:'🇲🇳', HU:'🇭🇺'
+    MN:'🇲🇳', HU:'🇭🇺', TR:'🇹🇷'
   };
 
   var yearSelect = root.querySelector('#gdash-year-select');
@@ -133,6 +222,7 @@
   var versionEl = root.querySelector('#gdash-version');
   var winnerEl = root.querySelector('#gdash-winner-name');
   var infoGrid = root.querySelector('#gdash-info-grid');
+  var stagesEl = root.querySelector('#gdash-stages');
   var bracketWrap = root.querySelector('#gdash-bracket-wrap');
   var bracketEl = root.querySelector('#gdash-bracket');
   var thirdPlaceEl = root.querySelector('#gdash-third-place');
@@ -172,7 +262,7 @@
       name: name || '—',
       flag: country || '',
       logo: logoUrl(name || 'Team'),
-      games: games || 'Счет уточняется',
+      games: games || 'Итог уточняется',
       score: score || '—'
     };
   }
@@ -254,6 +344,57 @@
     ];
   }
 
+  function renderStages(tournament) {
+    clearNode(stagesEl);
+
+    if (!tournament.stages || !tournament.stages.length) {
+      return;
+    }
+
+    var head = document.createElement('div');
+    head.className = 'gdash__stages-head';
+    head.innerHTML =
+      '<h3 class="gdash__stages-title">Этапы турнира</h3>' +
+      '<p class="gdash__stages-text">Итоговый счёт указан одним значением: 3:0, 3:1, 3:2, 2:3, 1:3 или 0:3.</p>';
+    stagesEl.appendChild(head);
+
+    var grid = document.createElement('div');
+    grid.className = 'gdash__stages-grid';
+
+    tournament.stages.forEach(function (stage) {
+      var card = document.createElement('article');
+      card.className = 'gdash__stage-card';
+
+      var rows = stage.teams.map(function (team, index) {
+        return (
+          '<div class="gdash__stage-row ' + (team.qualified ? 'is-qualified' : 'is-out') + '">' +
+            '<div class="gdash__stage-place">' + (index + 1) + '</div>' +
+            '<div class="gdash__stage-team">' +
+              '<span class="gdash__flag">' + flag(team.flag) + '</span>' +
+              '<span>' + team.name + '</span>' +
+            '</div>' +
+            '<div class="gdash__stage-score">' + team.score + '</div>' +
+          '</div>'
+        );
+      }).join('');
+
+      card.innerHTML =
+        '<div class="gdash__stage-top">' +
+          '<div>' +
+            '<h4 class="gdash__stage-title">' + stage.title + '</h4>' +
+            '<div class="gdash__stage-period">' + stage.period + '</div>' +
+          '</div>' +
+          '<div class="gdash__stage-badge">' + stage.qualifiedLabel + '</div>' +
+        '</div>' +
+        '<p class="gdash__stage-description">' + stage.description + '</p>' +
+        '<div class="gdash__stage-table">' + rows + '</div>';
+
+      grid.appendChild(card);
+    });
+
+    stagesEl.appendChild(grid);
+  }
+
   function renderBracket(tournament) {
     clearNode(bracketEl);
     clearNode(thirdPlaceEl);
@@ -301,8 +442,8 @@
 
     thirdLayout.appendChild(
       makeMatch('Матч за 3 место', 'Победитель уточняется', [
-        makeTeam(sf1.name, sf1.flag, '—', 'Счет уточняется'),
-        makeTeam(sf2.name, sf2.flag, '—', 'Счет уточняется')
+        makeTeam(sf1.name, sf1.flag, '—', 'Итог уточняется'),
+        makeTeam(sf2.name, sf2.flag, '—', 'Итог уточняется')
       ])
     );
 
@@ -371,6 +512,7 @@
     infoGrid.appendChild(makeInfoCard('Второе место', flag(tournament.second.flag) + ' ' + tournament.second.name));
     infoGrid.appendChild(makeInfoCard('Полуфиналисты', tournament.semi.length ? tournament.semi.map(function (team) { return flag(team.flag) + ' ' + team.name; }).join(', ') : '—'));
 
+    renderStages(tournament);
     renderBracket(tournament);
   }
 
