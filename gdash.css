@@ -897,3 +897,40 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Обновление сетки: линии рисуются SVG от карточки к карточке */
+#gdash-root .gdash__bracket {
+  position: relative;
+}
+
+#gdash-root .gdash__round {
+  position: relative;
+  z-index: 2;
+}
+
+#gdash-root .gdash__match {
+  position: relative;
+  z-index: 3;
+}
+
+#gdash-root .gdash__round--quarter .gdash__match::after,
+#gdash-root .gdash__round--semi .gdash__match::after {
+  display: none;
+}
+
+#gdash-root .gdash__bracket-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+
+#gdash-root .gdash__team-row.is-no-score {
+  grid-template-columns: 30px minmax(0, 1fr);
+}
+
+#gdash-root .gdash__third-place:empty {
+  display: none;
+}

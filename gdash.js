@@ -130,6 +130,33 @@
       winner:{name:'Team Vitality', flag:'EU'}, 
       second:{name:'FaZe Clan', flag:'EU'}, 
       semi:[{name:'Team Spirit', flag:'RU'}, {name:'Natus Vincere', flag:'EU'}],
+      playoff: [
+        {
+          key: 'quarter',
+          title: '1/4 финала',
+          matches: [
+            { title:'Четвертьфинал 1', winner:'NAVI', teams:[{name:'FURIA Esports', flag:'BR'}, {name:'NAVI', flag:'EU'}] },
+            { title:'Четвертьфинал 2', winner:'Team Spirit', teams:[{name:'Team Spirit', flag:'RU'}, {name:'MOUZ', flag:'EU'}] },
+            { title:'Четвертьфинал 3', winner:'Team Vitality', teams:[{name:'Team Vitality', flag:'EU'}, {name:'Team Falcons', flag:'EU'}] },
+            { title:'Четвертьфинал 4', winner:'FaZe Clan', teams:[{name:'The MongolZ', flag:'MN'}, {name:'FaZe Clan', flag:'EU'}] }
+          ]
+        },
+        {
+          key: 'semi',
+          title: '1/2 финала',
+          matches: [
+            { title:'Полуфинал 1', winner:'Team Vitality', teams:[{name:'Team Vitality', flag:'EU'}, {name:'Team Spirit', flag:'RU'}] },
+            { title:'Полуфинал 2', winner:'FaZe Clan', teams:[{name:'FaZe Clan', flag:'EU'}, {name:'NAVI', flag:'EU'}] }
+          ]
+        },
+        {
+          key: 'final',
+          title: 'Гранд финал',
+          matches: [
+            { title:'Финал', winner:'Team Vitality', teams:[{name:'Team Vitality', flag:'EU'}, {name:'FaZe Clan', flag:'EU'}] }
+          ]
+        }
+      ],
       stages: [
         {
           title: 'Этап 1',
@@ -262,14 +289,17 @@
       name: name || '—',
       flag: country || '',
       logo: logoUrl(name || 'Team'),
-      games: games || 'Итог уточняется',
-      score: score || '—'
+      games: games || '',
+      score: score || ''
     };
   }
 
   function makeTeamRow(team, winnerName) {
+    var hasScore = team.score !== undefined && team.score !== null && String(team.score).trim() !== '';
+    var hasGames = team.games !== undefined && team.games !== null && String(team.games).trim() !== '';
+
     var row = document.createElement('div');
-    row.className = 'gdash__team-row' + (team.name === winnerName ? ' is-winner' : '');
+    row.className = 'gdash__team-row' + (team.name === winnerName ? ' is-winner' : '') + (!hasScore ? ' is-no-score' : '');
 
     row.innerHTML =
       '<img class="gdash__team-logo" src="' + team.logo + '" alt="' + team.name + '">' +
@@ -278,9 +308,9 @@
           '<span class="gdash__flag">' + flag(team.flag) + '</span>' +
           '<span class="gdash__team-name">' + team.name + '</span>' +
         '</div>' +
-        '<div class="gdash__games">' + team.games + '</div>' +
+        (hasGames ? '<div class="gdash__games">' + team.games + '</div>' : '') +
       '</div>' +
-      '<div class="gdash__score">' + team.score + '</div>';
+      (hasScore ? '<div class="gdash__score">' + team.score + '</div>' : '');
 
     return row;
   }
@@ -310,6 +340,24 @@
       return null;
     }
 
+    if (tournament.playoff && tournament.playoff.length) {
+      return tournament.playoff.map(function (round) {
+        return {
+          key: round.key,
+          title: round.title,
+          matches: round.matches.map(function (match) {
+            return {
+              title: match.title,
+              winner: match.winner,
+              teams: match.teams.map(function (team) {
+                return makeTeam(team.name, team.flag, team.score || '', team.games || '');
+              })
+            };
+          })
+        };
+      });
+    }
+
     var w = tournament.winner;
     var s = tournament.second;
     var sf1 = tournament.semi[0] || { name: 'Полуфиналист 1', flag: '' };
@@ -317,28 +365,18 @@
 
     return [
       {
-        key: 'quarter',
-        title: '1/4 финала',
-        matches: [
-          { title:'Матч 1', winner:w.name, teams:[makeTeam(w.name, w.flag, '2'), makeTeam('Соперник 1', '', '—')] },
-          { title:'Матч 2', winner:sf1.name, teams:[makeTeam(sf1.name, sf1.flag, '2'), makeTeam('Соперник 2', '', '—')] },
-          { title:'Матч 3', winner:s.name, teams:[makeTeam(s.name, s.flag, '2'), makeTeam('Соперник 3', '', '—')] },
-          { title:'Матч 4', winner:sf2.name, teams:[makeTeam(sf2.name, sf2.flag, '2'), makeTeam('Соперник 4', '', '—')] }
-        ]
-      },
-      {
         key: 'semi',
         title: '1/2 финала',
         matches: [
-          { title:'Полуфинал 1', winner:w.name, teams:[makeTeam(w.name, w.flag, '2'), makeTeam(sf1.name, sf1.flag, '—')] },
-          { title:'Полуфинал 2', winner:s.name, teams:[makeTeam(s.name, s.flag, '2'), makeTeam(sf2.name, sf2.flag, '—')] }
+          { title:'Полуфинал 1', winner:w.name, teams:[makeTeam(w.name, w.flag), makeTeam(sf1.name, sf1.flag)] },
+          { title:'Полуфинал 2', winner:s.name, teams:[makeTeam(s.name, s.flag), makeTeam(sf2.name, sf2.flag)] }
         ]
       },
       {
         key: 'final',
         title: 'Гранд финал',
         matches: [
-          { title:'Финал', winner:w.name, teams:[makeTeam(w.name, w.flag, '2'), makeTeam(s.name, s.flag, '—')] }
+          { title:'Финал', winner:w.name, teams:[makeTeam(w.name, w.flag), makeTeam(s.name, s.flag)] }
         ]
       }
     ];
@@ -355,7 +393,7 @@
     head.className = 'gdash__stages-head';
     head.innerHTML =
       '<h3 class="gdash__stages-title">Этапы турнира</h3>' +
-      '<p class="gdash__stages-text">Итоговый счёт указан одним значением: 3:0, 3:1, 3:2, 2:3, 1:3 или 0:3.</p>';
+      '<p class="gdash__stages-text">Счёт указан одним значением: 3:0, 3:1, 3:2, 2:3, 1:3 или 0:3.</p>';
     stagesEl.appendChild(head);
 
     var grid = document.createElement('div');
@@ -395,6 +433,63 @@
     stagesEl.appendChild(grid);
   }
 
+  function drawBracketLines() {
+    if (!bracketEl) return;
+
+    var oldSvg = bracketEl.querySelector('.gdash__bracket-lines');
+    if (oldSvg) oldSvg.remove();
+
+    var qf = bracketEl.querySelectorAll('.gdash__round--quarter .gdash__match');
+    var sf = bracketEl.querySelectorAll('.gdash__round--semi .gdash__match');
+    var fn = bracketEl.querySelectorAll('.gdash__round--final .gdash__match');
+
+    if (!sf.length || !fn.length) return;
+
+    var box = bracketEl.getBoundingClientRect();
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.classList.add('gdash__bracket-lines');
+    svg.setAttribute('width', String(box.width));
+    svg.setAttribute('height', String(box.height));
+    svg.setAttribute('viewBox', '0 0 ' + box.width + ' ' + box.height);
+
+    function point(el, side) {
+      var r = el.getBoundingClientRect();
+      return {
+        x: side === 'right' ? r.right - box.left : r.left - box.left,
+        y: r.top - box.top + r.height / 2
+      };
+    }
+
+    function connect(fromEl, toEl) {
+      if (!fromEl || !toEl) return;
+
+      var a = point(fromEl, 'right');
+      var b = point(toEl, 'left');
+      var mid = a.x + (b.x - a.x) / 2;
+
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'M ' + a.x + ' ' + a.y + ' H ' + mid + ' V ' + b.y + ' H ' + b.x);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', '#aeb7c4');
+      path.setAttribute('stroke-width', '1.5');
+      path.setAttribute('stroke-linecap', 'round');
+      path.setAttribute('stroke-linejoin', 'round');
+      svg.appendChild(path);
+    }
+
+    if (qf.length >= 4 && sf.length >= 2) {
+      connect(qf[0], sf[0]);
+      connect(qf[1], sf[0]);
+      connect(qf[2], sf[1]);
+      connect(qf[3], sf[1]);
+    }
+
+    connect(sf[0], fn[0]);
+    connect(sf[1], fn[0]);
+
+    bracketEl.prepend(svg);
+  }
+
   function renderBracket(tournament) {
     clearNode(bracketEl);
     clearNode(thirdPlaceEl);
@@ -429,26 +524,29 @@
       bracketEl.appendChild(roundNode);
     });
 
-    var thirdTitle = document.createElement('h3');
-    thirdTitle.className = 'gdash__third-title';
-    thirdTitle.textContent = 'Отдельный матч за третье место';
-    thirdPlaceEl.appendChild(thirdTitle);
+    if (tournament.thirdPlace) {
+      var thirdTitle = document.createElement('h3');
+      thirdTitle.className = 'gdash__third-title';
+      thirdTitle.textContent = 'Отдельный матч за третье место';
+      thirdPlaceEl.appendChild(thirdTitle);
 
-    var thirdLayout = document.createElement('div');
-    thirdLayout.className = 'gdash__third-layout';
+      var thirdLayout = document.createElement('div');
+      thirdLayout.className = 'gdash__third-layout';
+      thirdLayout.appendChild(
+        makeMatch('Матч за 3 место', tournament.thirdPlace.winner || '', tournament.thirdPlace.teams.map(function (team) {
+          return makeTeam(team.name, team.flag, team.score || '', team.games || '');
+        }))
+      );
 
-    var sf1 = tournament.semi[0] || { name: 'Полуфиналист 1', flag: '' };
-    var sf2 = tournament.semi[1] || { name: 'Полуфиналист 2', flag: '' };
+      thirdPlaceEl.appendChild(thirdLayout);
+    }
 
-    thirdLayout.appendChild(
-      makeMatch('Матч за 3 место', 'Победитель уточняется', [
-        makeTeam(sf1.name, sf1.flag, '—', 'Итог уточняется'),
-        makeTeam(sf2.name, sf2.flag, '—', 'Итог уточняется')
-      ])
-    );
-
-    thirdPlaceEl.appendChild(thirdLayout);
+    window.requestAnimationFrame(drawBracketLines);
   }
+
+  window.addEventListener('resize', function () {
+    window.requestAnimationFrame(drawBracketLines);
+  });
 
   function uniqueYears() {
     var years = [];
