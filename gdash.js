@@ -1,688 +1,650 @@
-(function () {
-  var root = document.getElementById('gdash-root');
-  if (!root) return;
+const GDASH_DATA = {
+  stages: [
+    {
+      title: "Этап 1",
+      meta: [
+        "16 команд",
+        "Швейцарская система",
+        "8 проходят на Этап 2",
+        "8 выбывают",
+      ],
+      rounds: [
+        {
+          title: "Раунд 1",
+          group: "",
+          matches: [
+            { time: "03.06 18:00", a: "COL", score: "0:1", b: "OG" },
+            { time: "03.06 18:00", a: "Heroic", score: "1:0", b: "Chinggis" },
+            { time: "03.06 19:15", a: "B8", score: "1:0", b: "Imperial" },
+            { time: "03.06 19:30", a: "BetBoom", score: "1:0", b: "Nemiga" },
+            {
+              time: "03.06 20:30",
+              a: "Lynn Vision",
+              score: "1:0",
+              b: "Legacy",
+            },
+            { time: "03.06 20:30", a: "TYLOO", score: "0:0", b: "NRG" },
+            { time: "03.06 21:45", a: "FlyQuest", score: "1:0", b: "Fluxo" },
+            {
+              time: "03.06 21:45",
+              a: "Wildcard",
+              score: "1:0",
+              b: "Metizport",
+            },
+          ],
+        },
+        {
+          title: "Раунд 2",
+          group: "High",
+          matches: [
+            { time: "03.06 23:30", a: "Heroic", score: "1:0", b: "NRG" },
+            { time: "03.06 23:30", a: "B8", score: "1:0", b: "OG" },
+            {
+              time: "04.06 00:25",
+              a: "Lynn Vision",
+              score: "0:1",
+              b: "Wildcard",
+            },
+            { time: "04.06 00:40", a: "BetBoom", score: "0:1", b: "FlyQuest" },
+          ],
+        },
+        {
+          title: "Раунд 2",
+          group: "Low",
+          matches: [
+            { time: "04.06 01:40", a: "COL", score: "1:0", b: "Fluxo" },
+            { time: "04.06 01:55", a: "Chinggis", score: "0:1", b: "Legacy" },
+            { time: "04.06 02:40", a: "Imperial", score: "0:1", b: "Nemiga" },
+            { time: "04.06 03:10", a: "TYLOO", score: "1:0", b: "Metizport" },
+          ],
+        },
+        {
+          title: "Раунд 3",
+          group: "High",
+          matches: [
+            { time: "04.06 19:45", a: "Heroic", score: "2:1", b: "FlyQuest" },
+            { time: "04.06 20:00", a: "B8", score: "2:1", b: "Wildcard" },
+          ],
+        },
+        {
+          title: "Раунд 3",
+          group: "Mid",
+          matches: [
+            { time: "04.06 18:00", a: "NRG", score: "1:0", b: "COL" },
+            { time: "04.06 18:00", a: "BetBoom", score: "1:0", b: "Legacy" },
+            { time: "04.06 18:55", a: "OG", score: "1:0", b: "TYLOO" },
+            {
+              time: "04.06 19:00",
+              a: "Lynn Vision",
+              score: "0:1",
+              b: "Nemiga",
+            },
+          ],
+        },
+        {
+          title: "Раунд 3",
+          group: "Low",
+          matches: [
+            {
+              time: "04.06 22:45",
+              a: "Imperial",
+              score: "2:0",
+              b: "Metizport",
+            },
+            { time: "04.06 23:00", a: "Chinggis", score: "2:1", b: "Fluxo" },
+          ],
+        },
+        {
+          title: "Раунд 4",
+          group: "High",
+          matches: [
+            { time: "05.06 20:10", a: "OG", score: "2:0", b: "NRG" },
+            { time: "05.06 21:50", a: "BetBoom", score: "2:0", b: "Wildcard" },
+            { time: "05.06 23:55", a: "FlyQuest", score: "0:2", b: "Nemiga" },
+          ],
+        },
+        {
+          title: "Раунд 4",
+          group: "Low",
+          matches: [
+            { time: "05.06 18:00", a: "Imperial", score: "1:2", b: "Legacy" },
+            { time: "05.06 18:00", a: "COL", score: "0:2", b: "TYLOO" },
+            {
+              time: "05.06 20:30",
+              a: "Chinggis",
+              score: "1:2",
+              b: "Lynn Vision",
+            },
+          ],
+        },
+        {
+          title: "Раунд 5",
+          group: "",
+          matches: [
+            { time: "06.06 18:00", a: "NRG", score: "0:2", b: "Lynn Vision" },
+            { time: "06.06 21:05", a: "Wildcard", score: "0:2", b: "Legacy" },
+            { time: "06.06 23:00", a: "FlyQuest", score: "1:2", b: "TYLOO" },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Этап 2",
+      meta: [
+        "16 команд",
+        "Швейцарская система",
+        "8 проходят на Этап 3",
+        "8 выбывают",
+      ],
+      rounds: [
+        {
+          title: "Раунд 1",
+          group: "",
+          matches: [
+            { time: "07.06 18:00", a: "FaZe", score: "1:0", b: "Heroic" },
+            { time: "07.06 18:00", a: "Falcons", score: "0:1", b: "B8" },
+            { time: "07.06 18:45", a: "VP", score: "1:0", b: "OG" },
+            { time: "07.06 19:00", a: "3DMAX", score: "1:0", b: "BetBoom" },
+            { time: "07.06 19:40", a: "FURIA", score: "1:0", b: "Lynn Vision" },
+            { time: "07.06 20:00", a: "paiN", score: "1:0", b: "Nemiga" },
+            { time: "07.06 20:30", a: "MIBR", score: "0:1", b: "Legacy" },
+            { time: "07.06 20:55", a: "M80", score: "0:1", b: "TYLOO" },
+          ],
+        },
+        {
+          title: "Раунд 2",
+          group: "High",
+          matches: [
+            { time: "07.06 22:30", a: "VP", score: "1:0", b: "B8" },
+            { time: "07.06 22:30", a: "paiN", score: "1:0", b: "FURIA" },
+            { time: "07.06 23:20", a: "3DMAX", score: "0:1", b: "Legacy" },
+            { time: "07.06 23:40", a: "FaZe", score: "1:0", b: "TYLOO" },
+          ],
+        },
+        {
+          title: "Раунд 2",
+          group: "Low",
+          matches: [
+            { time: "08.06 00:20", a: "Heroic", score: "1:0", b: "BetBoom" },
+            {
+              time: "08.06 00:30",
+              a: "Falcons",
+              score: "0:1",
+              b: "Lynn Vision",
+            },
+            { time: "08.06 01:15", a: "M80", score: "1:0", b: "OG" },
+            { time: "08.06 01:35", a: "MIBR", score: "0:1", b: "Nemiga" },
+          ],
+        },
+        {
+          title: "Раунд 3",
+          group: "High",
+          matches: [
+            { time: "08.06 19:50", a: "FaZe", score: "0:2", b: "Legacy" },
+            { time: "08.06 20:05", a: "paiN", score: "0:2", b: "VP" },
+          ],
+        },
+        {
+          title: "Раунд 3",
+          group: "Mid",
+          matches: [
+            { time: "08.06 18:00", a: "3DMAX", score: "1:0", b: "Nemiga" },
+            { time: "08.06 18:00", a: "TYLOO", score: "0:1", b: "Lynn Vision" },
+            { time: "08.06 18:55", a: "FURIA", score: "1:0", b: "M80" },
+            { time: "08.06 19:00", a: "B8", score: "1:0", b: "Heroic" },
+          ],
+        },
+        {
+          title: "Раунд 3",
+          group: "Low",
+          matches: [
+            { time: "08.06 22:00", a: "OG", score: "1:2", b: "Falcons" },
+            { time: "08.06 22:50", a: "MIBR", score: "2:0", b: "BetBoom" },
+          ],
+        },
+        {
+          title: "Раунд 4",
+          group: "High",
+          matches: [
+            { time: "09.06 19:50", a: "paiN", score: "2:0", b: "Lynn Vision" },
+            { time: "09.06 21:45", a: "FURIA", score: "2:1", b: "B8" },
+            { time: "10.06 01:45", a: "FaZe", score: "0:2", b: "3DMAX" },
+          ],
+        },
+        {
+          title: "Раунд 4",
+          group: "Low",
+          matches: [
+            { time: "09.06 18:00", a: "Nemiga", score: "2:0", b: "M80" },
+            { time: "09.06 18:00", a: "TYLOO", score: "1:2", b: "Heroic" },
+            { time: "09.06 21:35", a: "Falcons", score: "1:2", b: "MIBR" },
+          ],
+        },
+        {
+          title: "Раунд 5",
+          group: "",
+          matches: [
+            { time: "10.06 18:00", a: "Nemiga", score: "2:0", b: "Heroic" },
+            { time: "10.06 20:30", a: "B8", score: "1:2", b: "Lynn Vision" },
+            { time: "10.06 23:30", a: "FaZe", score: "2:0", b: "MIBR" },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Этап 3",
+      meta: [
+        "16 команд",
+        "Швейцарская система",
+        "8 проходят в Плей-офф",
+        "8 выбывают",
+      ],
+      rounds: [
+        {
+          title: "Раунд 1",
+          group: "",
+          matches: [
+            { time: "12.06 18:00", a: "MOUZ", score: "0:1", b: "VP" },
+            { time: "12.06 18:00", a: "Vitality", score: "0:1", b: "Legacy" },
+            { time: "12.06 18:55", a: "Spirit", score: "1:0", b: "paiN" },
+            { time: "12.06 19:10", a: "G2", score: "0:1", b: "3DMAX" },
+            { time: "12.06 19:45", a: "Aurora", score: "1:0", b: "FaZe" },
+            { time: "12.06 20:00", a: "Mongolz", score: "0:1", b: "FURIA" },
+            { time: "12.06 20:45", a: "NAVI", score: "1:0", b: "Nemiga" },
+            {
+              time: "12.06 21:05",
+              a: "Liquid",
+              score: "0:1",
+              b: "Lynn Vision",
+            },
+          ],
+        },
+        {
+          title: "Раунд 2",
+          group: "High",
+          matches: [
+            { time: "12.06 22:30", a: "VP", score: "1:0", b: "Legacy" },
+            { time: "12.06 22:30", a: "Aurora", score: "0:1", b: "FURIA" },
+            { time: "12.06 23:35", a: "3DMAX", score: "0:1", b: "NAVI" },
+            {
+              time: "12.06 23:40",
+              a: "Spirit",
+              score: "1:0",
+              b: "Lynn Vision",
+            },
+          ],
+        },
+        {
+          title: "Раунд 2",
+          group: "Low",
+          matches: [
+            { time: "13.06 00:35", a: "MOUZ", score: "0:1", b: "FaZe" },
+            { time: "13.06 01:00", a: "Vitality", score: "1:0", b: "Nemiga" },
+            { time: "13.06 01:40", a: "Mongolz", score: "1:0", b: "Liquid" },
+            { time: "13.06 01:50", a: "G2", score: "1:0", b: "paiN" },
+          ],
+        },
+        {
+          title: "Раунд 3",
+          group: "High",
+          matches: [
+            { time: "13.06 19:35", a: "Spirit", score: "2:0", b: "NAVI" },
+            { time: "13.06 19:55", a: "FURIA", score: "2:0", b: "VP" },
+          ],
+        },
+        {
+          title: "Раунд 3",
+          group: "Mid",
+          matches: [
+            { time: "13.06 18:00", a: "3DMAX", score: "0:1", b: "Vitality" },
+            { time: "13.06 18:00", a: "Legacy", score: "0:1", b: "FaZe" },
+            { time: "13.06 18:45", a: "Aurora", score: "0:1", b: "G2" },
+            {
+              time: "13.06 19:00",
+              a: "Mongolz",
+              score: "1:0",
+              b: "Lynn Vision",
+            },
+          ],
+        },
+        {
+          title: "Раунд 3",
+          group: "Low",
+          matches: [
+            { time: "13.06 21:40", a: "MOUZ", score: "2:1", b: "Liquid" },
+            { time: "13.06 21:40", a: "paiN", score: "2:1", b: "Nemiga" },
+          ],
+        },
+        {
+          title: "Раунд 4",
+          group: "High",
+          matches: [
+            { time: "14.06 20:30", a: "Mongolz", score: "0:2", b: "FaZe" },
+            { time: "14.06 22:25", a: "NAVI", score: "2:1", b: "G2" },
+            { time: "14.06 23:45", a: "VP", score: "0:2", b: "Vitality" },
+          ],
+        },
+        {
+          title: "Раунд 4",
+          group: "Low",
+          matches: [
+            {
+              time: "14.06 18:00",
+              a: "Legacy",
+              score: "2:1",
+              b: "Lynn Vision",
+            },
+            { time: "14.06 18:00", a: "3DMAX", score: "0:2", b: "paiN" },
+            { time: "14.06 20:25", a: "Aurora", score: "1:2", b: "MOUZ" },
+          ],
+        },
+        {
+          title: "Раунд 5",
+          group: "",
+          matches: [
+            { time: "15.06 18:00", a: "Legacy", score: "1:2", b: "MOUZ" },
+            { time: "15.06 21:15", a: "Mongolz", score: "2:0", b: "G2" },
+            { time: "16.06 00:45", a: "VP", score: "1:2", b: "paiN" },
+          ],
+        },
+      ],
+    },
+  ],
+  stageStatus: [
+    [
+      { team: "B8", score: "3:0", in: true },
+      { team: "Heroic", score: "3:0", in: true },
+      { team: "BetBoom", score: "3:1", in: true },
+      { team: "Nemiga", score: "3:1", in: true },
+      { team: "OG", score: "3:1", in: true },
+      { team: "TYLOO", score: "3:1", in: true },
+      { team: "Legacy", score: "3:2", in: true },
+      { team: "Lynn Vision", score: "3:2", in: true },
+      { team: "FlyQuest", score: "2:3", in: false },
+      { team: "Wildcard", score: "2:3", in: false },
+      { team: "COL", score: "1:3", in: false },
+      { team: "Chinggis", score: "1:3", in: false },
+      { team: "Imperial", score: "1:3", in: false },
+      { team: "NRG", score: "1:3", in: false },
+      { team: "Fluxo", score: "0:3", in: false },
+      { team: "Metizport", score: "0:3", in: false },
+    ],
+    [
+      { team: "Legacy", score: "3:0", in: true },
+      { team: "VP", score: "3:0", in: true },
+      { team: "3DMAX", score: "3:1", in: true },
+      { team: "FURIA", score: "3:1", in: true },
+      { team: "paiN", score: "3:1", in: true },
+      { team: "FaZe", score: "3:2", in: true },
+      { team: "Lynn Vision", score: "3:2", in: true },
+      { team: "Nemiga", score: "3:2", in: true },
+      { team: "B8", score: "2:3", in: false },
+      { team: "Heroic", score: "2:3", in: false },
+      { team: "MIBR", score: "2:3", in: false },
+      { team: "Falcons", score: "1:3", in: false },
+      { team: "M80", score: "1:3", in: false },
+      { team: "TYLOO", score: "1:3", in: false },
+      { team: "BetBoom", score: "0:3", in: false },
+      { team: "OG", score: "0:3", in: false },
+    ],
+    [
+      { team: "FURIA", score: "3:0", in: true },
+      { team: "Spirit", score: "3:0", in: true },
+      { team: "FaZe", score: "3:1", in: true },
+      { team: "NAVI", score: "3:1", in: true },
+      { team: "Vitality", score: "3:1", in: true },
+      { team: "MOUZ", score: "3:2", in: true },
+      { team: "Mongolz", score: "3:2", in: true },
+      { team: "paiN", score: "3:2", in: true },
+      { team: "G2", score: "2:3", in: false },
+      { team: "Legacy", score: "2:3", in: false },
+      { team: "VP", score: "2:3", in: false },
+      { team: "3DMAX", score: "1:3", in: false },
+      { team: "Aurora", score: "1:3", in: false },
+      { team: "Lynn Vision", score: "1:3", in: false },
+      { team: "Liquid", score: "0:3", in: false },
+      { team: "Nemiga", score: "0:3", in: false },
+    ],
+  ],
+  playoff: [
+    {
+      id: "q1",
+      round: "1/4 финала",
+      pos: "q1",
+      next: "s1",
+      time: "19.06 22:00",
+      a: "Spirit",
+      sa: 1,
+      b: "MOUZ",
+      sb: 2,
+      winner: "MOUZ",
+    },
+    {
+      id: "q2",
+      round: "1/4 финала",
+      pos: "q2",
+      next: "s1",
+      time: "20.06 21:10",
+      a: "Vitality",
+      sa: 2,
+      b: "NAVI",
+      sb: 0,
+      winner: "Vitality",
+    },
+    {
+      id: "q3",
+      round: "1/4 финала",
+      pos: "q3",
+      next: "s2",
+      time: "21.06 00:15",
+      a: "FaZe",
+      sa: 0,
+      b: "Mongolz",
+      sb: 2,
+      winner: "Mongolz",
+    },
+    {
+      id: "q4",
+      round: "1/4 финала",
+      pos: "q4",
+      next: "s2",
+      time: "20.06 03:20",
+      a: "FURIA",
+      sa: 1,
+      b: "paiN",
+      sb: 2,
+      winner: "paiN",
+    },
+    {
+      id: "s1",
+      round: "Полуфинал",
+      pos: "s1",
+      next: "f1",
+      time: "21.06 21:00",
+      a: "MOUZ",
+      sa: 1,
+      b: "Vitality",
+      sb: 2,
+      winner: "Vitality",
+    },
+    {
+      id: "s2",
+      round: "Полуфинал",
+      pos: "s2",
+      next: "f1",
+      time: "22.06 00:50",
+      a: "Mongolz",
+      sa: 2,
+      b: "paiN",
+      sb: 0,
+      winner: "Mongolz",
+    },
+    {
+      id: "f1",
+      round: "Финал",
+      pos: "f1",
+      next: "",
+      time: "22.06 22:30",
+      a: "Vitality",
+      sa: 2,
+      b: "Mongolz",
+      sb: 1,
+      winner: "Vitality",
+    },
+  ],
+};
 
+(function () {
+  const root = document.getElementById("gdash-root");
+  if (!root) return;
   root.innerHTML = `
     <div class="gdash__shell">
-      <header class="gdash__header" aria-label="Верхнее меню">
-        <div class="gdash__brand">
-          <div class="gdash__brand-mark">G</div>
-          <div class="gdash__brand-text">
-            <div class="gdash__brand-title">Game Dashboard</div>
-            <div class="gdash__brand-subtitle">CS:GO / CS2 Major</div>
-          </div>
-        </div>
-
-        <nav class="gdash__nav">
-          <button class="gdash__nav-btn is-active" type="button" data-page="tournaments">Турниры</button>
-          <button class="gdash__nav-btn" type="button" data-page="teams">Команды</button>
-        </nav>
+      <header class="gdash__header">
+        <div class="gdash__brand"><div class="gdash__brand-mark">G</div><div><div class="gdash__brand-title">Game Dashboard</div><div class="gdash__brand-subtitle">2025 Tournament</div></div></div>
+        <nav class="gdash__nav"><button class="gdash__nav-btn is-active" data-page="tournament">Турнир</button><button class="gdash__nav-btn" data-page="teams">Команды</button></nav>
       </header>
-
       <main class="gdash__main">
-        <section class="gdash__page is-active" data-page-content="tournaments">
-          <div class="gdash__topbar">
-            <div>
-              <div class="gdash__eyebrow">Панель управления</div>
-              <h2 class="gdash__title">Турнирная сетка</h2>
-            </div>
-
-            <div class="gdash__controls">
-              <label class="gdash__control">
-                <span class="gdash__control-label">Год</span>
-                <select class="gdash__select" id="gdash-year-select"></select>
-              </label>
-
-              <label class="gdash__control">
-                <span class="gdash__control-label">Турнир</span>
-                <select class="gdash__select" id="gdash-tournament-select"></select>
-              </label>
-            </div>
+        <section class="gdash__page is-active" data-page-content="tournament">
+          <div class="gdash__hero">
+            <div class="gdash__hero-main"><div class="gdash__eyebrow">CS2 Major 2025</div><h1 class="gdash__title">BLAST.tv Austin Major 2025</h1><p class="gdash__desc">Этапы 1–3 построены по швейцарской системе: 16 команд, 8 сильнейших проходят дальше, 8 слабейших выбывают. Плей-офф — single-elimination, все матчи best-of-3.</p></div>
+            <div class="gdash__winner-card"><span>Победитель</span><strong>Team Vitality</strong></div>
           </div>
-
-          <div class="gdash__tournament-head">
-            <div>
-              <div class="gdash__eyebrow" id="gdash-version"></div>
-              <h1 class="gdash__tournament-title" id="gdash-tournament-title"></h1>
-            </div>
-            <div class="gdash__winner-card">
-              <span class="gdash__muted">Победитель</span>
-              <strong id="gdash-winner-name"></strong>
-            </div>
-          </div>
-
-          <div class="gdash__info-grid" id="gdash-info-grid"></div>
-
-          <div class="gdash__stages" id="gdash-stages"></div>
-
-          <div class="gdash__section-head">
-            <h3 class="gdash__section-title">Основная сетка</h3>
-            <p class="gdash__section-text">В файле есть победитель, второе место и полуфиналисты. Полная 1/4 сетка и точные счета в исходнике не указаны, поэтому недостающие пары отмечены как заглушки.</p>
-          </div>
-
-          <div class="gdash__bracket-wrap" id="gdash-bracket-wrap">
-            <div class="gdash__bracket" id="gdash-bracket"></div>
-          </div>
-
-          <div class="gdash__third-place" id="gdash-third-place"></div>
+          <div class="gdash__info-grid" id="gdash-info"></div>
+          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Этапы турнира</h2><p class="gdash__section-text">Матчи разложены по этапам и раундам. В строке показан один итоговый счет конкретного матча.</p></div><div class="gdash__stage-grid" id="gdash-stages"></div></section>
+          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Итоги этапов</h2><p class="gdash__section-text">Зеленым отмечены команды, которые прошли дальше. Красным — команды, которые выбыли.</p></div><div class="gdash__status-grid" id="gdash-status"></div></section>
+          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Плей-офф</h2><p class="gdash__section-text">Сетка single-elimination: 1/4 финала, полуфинал, финал. Линии идут от матча к следующему матчу.</p></div><div class="gdash__bracket-wrap" id="gdash-bracket-wrap"><svg class="gdash__bracket-lines" id="gdash-lines"></svg><div class="gdash__bracket" id="gdash-bracket"></div></div></section>
         </section>
-
-        <section class="gdash__page" data-page-content="teams">
-          <div class="gdash__topbar">
-            <div>
-              <div class="gdash__eyebrow">Раздел команд</div>
-              <h2 class="gdash__title">Команды турниров</h2>
-            </div>
-          </div>
-
-          <div class="gdash__teams-grid" id="gdash-teams-grid"></div>
-        </section>
+        <section class="gdash__page" data-page-content="teams"><section class="gdash__section" style="margin-top:0"><div class="gdash__section-head"><h2 class="gdash__section-title">Команды</h2><p class="gdash__section-text">Все команды, которые встречаются в этапах и плей-офф.</p></div><div class="gdash__team-grid" id="gdash-teams"></div></section></section>
       </main>
-    </div>
-  `;
+    </div>`;
 
-  var tournaments = [
-    { version:'CS:GO', year:'2013', title:'DreamHack Winter 2013', date:'28 — 30 ноября 2013', organizer:'DreamHack', prize:'250 000 $', mvp:'JW', city:'Йёнчёпинг', cityFlag:'SE', winner:{name:'Fnatic', flag:'SE'}, second:{name:'Ninjas in Pyjamas', flag:'SE'}, semi:[{name:'VeryGames', flag:'FR'}, {name:'compLexity Gaming', flag:'US'}] },
-
-    { version:'CS:GO', year:'2014', title:'EMS One Katowice 2014', date:'13 — 16 марта 2014', organizer:'ESL', prize:'250 000 $', mvp:'pashabiceps', city:'Катовице', cityFlag:'PL', winner:{name:'Virtus.pro', flag:'PL'}, second:{name:'Ninjas in Pyjamas', flag:'SE'}, semi:[{name:'Team Dignitas', flag:'DK'}, {name:'LGB eSports', flag:'SE'}] },
-    { version:'CS:GO', year:'2014', title:'ESL One Cologne 2014', date:'14 — 17 августа 2014', organizer:'ESL', prize:'250 000 $', mvp:'Friberg', city:'Кёльн', cityFlag:'DE', winner:{name:'Ninjas in Pyjamas', flag:'SE'}, second:{name:'Fnatic', flag:'SE'}, semi:[{name:'Team Dignitas', flag:'DK'}, {name:'Team LDLC', flag:'FR'}] },
-    { version:'CS:GO', year:'2014', title:'DreamHack Winter 2014', date:'27 — 29 ноября 2014', organizer:'DreamHack', prize:'250 000 $', mvp:'Happy', city:'Йёнчёпинг', cityFlag:'SE', winner:{name:'Team LDLC', flag:'FR'}, second:{name:'Ninjas in Pyjamas', flag:'SE'}, semi:[{name:'Virtus.pro', flag:'PL'}, {name:'Natus Vincere', flag:'UA'}] },
-
-    { version:'CS:GO', year:'2015', title:'ESL One Katowice 2015', date:'12 — 15 марта 2015', organizer:'ESL', prize:'250 000 $', mvp:'Olofmeister', city:'Катовице', cityFlag:'PL', winner:{name:'Fnatic', flag:'SE'}, second:{name:'Ninjas in Pyjamas', flag:'SE'}, semi:[{name:'Virtus.pro', flag:'PL'}, {name:'Team EnVyUs', flag:'FR'}] },
-    { version:'CS:GO', year:'2015', title:'ESL One Cologne 2015', date:'20 — 23 августа 2015', organizer:'ESL', prize:'250 000 $', mvp:'flusha', city:'Кёльн', cityFlag:'DE', winner:{name:'Fnatic', flag:'SE'}, second:{name:'Team EnVyUs', flag:'FR'}, semi:[{name:'Virtus.pro', flag:'PL'}, {name:'Team SoloMid', flag:'DK'}] },
-    { version:'CS:GO', year:'2015', title:'DreamHack Cluj-Napoca 2015', date:'28 октября — 1 ноября 2015', organizer:'DreamHack', prize:'250 000 $', mvp:'KennyS', city:'Клуж-Напока', cityFlag:'RO', winner:{name:'Team EnVyUs', flag:'FR'}, second:{name:'Natus Vincere', flag:'CIS'}, semi:[{name:'G2 Esports', flag:'EU'}, {name:'Ninjas in Pyjamas', flag:'SE'}] },
-
-    { version:'CS:GO', year:'2016', title:'MLG Columbus 2016', date:'29 марта — 3 апреля 2016', organizer:'MLG', prize:'1 000 000 $', mvp:'coldzera', city:'Колумбус', cityFlag:'US', winner:{name:'Luminosity Gaming', flag:'BR'}, second:{name:'Natus Vincere', flag:'CIS'}, semi:[{name:'Astralis', flag:'DK'}, {name:'Team Liquid', flag:'US'}] },
-    { version:'CS:GO', year:'2016', title:'ESL One: Cologne 2016', date:'5 — 10 июля 2016', organizer:'ESL', prize:'1 000 000 $', mvp:'coldzera', city:'Кёльн', cityFlag:'DE', winner:{name:'SK Gaming', flag:'BR'}, second:{name:'Team Liquid', flag:'US'}, semi:[{name:'Virtus.pro', flag:'PL'}, {name:'Fnatic', flag:'SE'}] },
-
-    { version:'CS:GO', year:'2017', title:'ELEAGUE Atlanta 2017', date:'22 — 29 января 2017', organizer:'ELEAGUE', prize:'1 000 000 $', mvp:'Kjaerbye', city:'Атланта', cityFlag:'US', winner:{name:'Astralis', flag:'DK'}, second:{name:'Virtus.pro', flag:'PL'}, semi:[{name:'SK Gaming', flag:'BR'}, {name:'Fnatic', flag:'SE'}] },
-    { version:'CS:GO', year:'2017', title:'PGL Major Kraków 2017', date:'16 — 23 июля 2017', organizer:'PGL', prize:'1 000 000 $', mvp:'AdreN', city:'Краков', cityFlag:'PL', winner:{name:'Gambit Esports', flag:'KZ'}, second:{name:'Immortals', flag:'BR'}, semi:[{name:'Astralis', flag:'DK'}, {name:'Virtus.pro', flag:'PL'}] },
-
-    { version:'CS:GO', year:'2018', title:'ELEAGUE Boston 2018', date:'12 — 28 января 2018', organizer:'ELEAGUE', prize:'1 000 000 $', mvp:'Tarik', city:'Бостон', cityFlag:'US', winner:{name:'Cloud9', flag:'US'}, second:{name:'FaZe Clan', flag:'EU'}, semi:[{name:'Natus Vincere', flag:'UA'}, {name:'SK Gaming', flag:'BR'}] },
-    { version:'CS:GO', year:'2018', title:'FACEIT Major 2018', date:'5 — 23 сентября 2018', organizer:'FACEIT', prize:'1 000 000 $', mvp:'dev1ce', city:'Лондон', cityFlag:'GB', winner:{name:'Astralis', flag:'DK'}, second:{name:'Natus Vincere', flag:'UA'}, semi:[{name:'MIBR', flag:'BR'}, {name:'Team Liquid', flag:'US'}] },
-
-    { version:'CS:GO', year:'2019', title:'IEM Katowice 2019', date:'13 февраля — 3 марта 2019', organizer:'ESL', prize:'1 000 000 $', mvp:'Magisk', city:'Катовице', cityFlag:'PL', winner:{name:'Astralis', flag:'DK'}, second:{name:'ENCE', flag:'FI'}, semi:[{name:'MIBR', flag:'BR'}, {name:'Natus Vincere', flag:'UA'}] },
-    { version:'CS:GO', year:'2019', title:'StarLadder Major 2019', date:'23 августа — 8 сентября 2019', organizer:'StarLadder', prize:'1 000 000 $', mvp:'dev1ce', city:'Берлин', cityFlag:'DE', winner:{name:'Astralis', flag:'DK'}, second:{name:'AVANGAR', flag:'KZ'}, semi:[{name:'Renegades', flag:'AU'}, {name:'NRG Esports', flag:'US'}] },
-
-    { version:'CS:GO', year:'2020', title:'ESL One: Rio 2020', date:'19 — 22 ноября 2020', organizer:'ESL', prize:'2 000 000 $', mvp:'—', city:'Рио-де-Жанейро', cityFlag:'BR', cancelled:true, winner:{name:'Отменён', flag:''}, second:{name:'—', flag:''}, semi:[] },
-
-    { version:'CS:GO', year:'2021', title:'PGL Major Stockholm 2021', date:'23 октября — 7 ноября 2021', organizer:'PGL', prize:'2 000 000 $', mvp:'s1mple', city:'Стокгольм', cityFlag:'SE', winner:{name:'Natus Vincere', flag:'RU'}, second:{name:'G2 Esports', flag:'EU'}, semi:[{name:'Gambit Esports', flag:'RU'}, {name:'Heroic', flag:'DK'}] },
-
-    { version:'CS:GO', year:'2022', title:'PGL Antwerp 2022', date:'9 — 22 мая 2022', organizer:'PGL', prize:'1 000 000 $', mvp:'rain', city:'Антверпен', cityFlag:'BE', winner:{name:'FaZe Clan', flag:'EU'}, second:{name:'Natus Vincere', flag:'RU'}, semi:[{name:'Team Spirit', flag:'RU'}, {name:'ENCE', flag:'EU'}] },
-    { version:'CS:GO', year:'2022', title:'IEM Rio Major 2022', date:'31 октября — 13 ноября 2022', organizer:'ESL', prize:'1 250 000 $', mvp:'Jame', city:'Рио-де-Жанейро', cityFlag:'BR', winner:{name:'Outsiders', flag:'RU'}, second:{name:'Heroic', flag:'DK'}, semi:[{name:'MOUZ', flag:'EU'}, {name:'FURIA Esports', flag:'BR'}] },
-
-    { version:'CS:GO', year:'2023', title:'Blast Paris Major 2023', date:'8 мая — 21 мая 2023', organizer:'BLAST Premier', prize:'1 250 000 $', mvp:'ZywOo', city:'Париж', cityFlag:'FR', winner:{name:'Team Vitality', flag:'EU'}, second:{name:'GamerLegion', flag:'EU'}, semi:[{name:'Heroic', flag:'DK'}, {name:'Apeks', flag:'EU'}] },
-
-    { version:'CS2', year:'2024', title:'PGL CS2 Major Copenhagen 2024', date:'17 марта — 31 марта 2024', organizer:'PGL', prize:'1 250 000 $', mvp:'JL', city:'Копенгаген', cityFlag:'DK', winner:{name:'Natus Vincere', flag:'EU'}, second:{name:'FaZe Clan', flag:'EU'}, semi:[{name:'Team Vitality', flag:'EU'}, {name:'G2 Esports', flag:'EU'}] },
-    { version:'CS2', year:'2024', title:'Perfect World Shanghai Major 2024', date:'1 декабря — 15 декабря 2024', organizer:'Perfect World Esports', prize:'1 250 000 $', mvp:'Donk', city:'Шанхай', cityFlag:'CN', winner:{name:'Team Spirit', flag:'RU'}, second:{name:'FaZe Clan', flag:'EU'}, semi:[{name:'MOUZ', flag:'EU'}, {name:'G2 Esports', flag:'EU'}] },
-
-    { version:'CS2', year:'2025', title:'Blast Austin Major 2025', date:'3 июня — 22 июня 2025', organizer:'BLAST Premier', prize:'1 250 000 $', mvp:'ZywOo', city:'Остин', cityFlag:'US', winner:{name:'Team Vitality', flag:'EU'}, second:{name:'The MongolZ', flag:'MN'}, semi:[{name:'MOUZ', flag:'EU'}, {name:'paiN', flag:'BR'}] },
-    { 
-      version:'CS2', 
-      year:'2025', 
-      title:'StarLadder Budapest Major 2025', 
-      date:'24 ноября — 14 декабря 2025', 
-      organizer:'StarLadder', 
-      prize:'1 250 000 $', 
-      mvp:'ZywOo', 
-      city:'Будапешт', 
-      cityFlag:'HU', 
-      winner:{name:'Team Vitality', flag:'EU'}, 
-      second:{name:'FaZe Clan', flag:'EU'}, 
-      semi:[{name:'Team Spirit', flag:'RU'}, {name:'Natus Vincere', flag:'EU'}],
-      playoff: [
-        {
-          key: 'quarter',
-          title: '1/4 финала',
-          matches: [
-            { title:'Четвертьфинал 1', winner:'NAVI', teams:[{name:'FURIA Esports', flag:'BR'}, {name:'NAVI', flag:'EU'}] },
-            { title:'Четвертьфинал 2', winner:'Team Spirit', teams:[{name:'Team Spirit', flag:'RU'}, {name:'MOUZ', flag:'EU'}] },
-            { title:'Четвертьфинал 3', winner:'Team Vitality', teams:[{name:'Team Vitality', flag:'EU'}, {name:'Team Falcons', flag:'EU'}] },
-            { title:'Четвертьфинал 4', winner:'FaZe Clan', teams:[{name:'The MongolZ', flag:'MN'}, {name:'FaZe Clan', flag:'EU'}] }
-          ]
-        },
-        {
-          key: 'semi',
-          title: '1/2 финала',
-          matches: [
-            { title:'Полуфинал 1', winner:'Team Vitality', teams:[{name:'Team Vitality', flag:'EU'}, {name:'Team Spirit', flag:'RU'}] },
-            { title:'Полуфинал 2', winner:'FaZe Clan', teams:[{name:'FaZe Clan', flag:'EU'}, {name:'NAVI', flag:'EU'}] }
-          ]
-        },
-        {
-          key: 'final',
-          title: 'Гранд финал',
-          matches: [
-            { title:'Финал', winner:'Team Vitality', teams:[{name:'Team Vitality', flag:'EU'}, {name:'FaZe Clan', flag:'EU'}] }
-          ]
-        }
-      ],
-      stages: [
-        {
-          title: 'Этап 1',
-          period: '24 — 27 ноября',
-          description: '16 команд. 8 лучших прошли во второй этап.',
-          qualifiedLabel: 'Прошли во второй этап',
-          teams: [
-            { name:'FlyQuest', flag:'AU', score:'3:0', qualified:true },
-            { name:'M80', flag:'US', score:'3:0', qualified:true },
-            { name:'Ninjas in Pyjamas', flag:'SE', score:'3:1', qualified:true },
-            { name:'B8', flag:'UA', score:'3:1', qualified:true },
-            { name:'Fnatic', flag:'SE', score:'3:1', qualified:true },
-            { name:'FaZe Clan', flag:'EU', score:'3:2', qualified:true },
-            { name:'Imperial Esports', flag:'BR', score:'3:2', qualified:true },
-            { name:'PARIVISION', flag:'RU', score:'3:2', qualified:true },
-            { name:'Legacy', flag:'BR', score:'2:3', qualified:false },
-            { name:'NRG', flag:'US', score:'2:3', qualified:false },
-            { name:'Fluxo', flag:'BR', score:'2:3', qualified:false },
-            { name:'GamerLegion', flag:'EU', score:'1:3', qualified:false },
-            { name:'The Huns', flag:'MN', score:'1:3', qualified:false },
-            { name:'RED Canids', flag:'BR', score:'1:3', qualified:false },
-            { name:'Rare Atom', flag:'CN', score:'0:3', qualified:false },
-            { name:'Lynn Vision', flag:'CN', score:'0:3', qualified:false }
-          ]
-        },
-        {
-          title: 'Этап 2',
-          period: '29 ноября — 2 декабря',
-          description: '8 приглашённых команд и 8 лучших команд первого этапа. 8 лучших прошли в третий этап.',
-          qualifiedLabel: 'Прошли в третий этап',
-          teams: [
-            { name:'NAVI', flag:'EU', score:'3:0', qualified:true },
-            { name:'FaZe Clan', flag:'EU', score:'3:0', qualified:true },
-            { name:'PARIVISION', flag:'RU', score:'3:1', qualified:true },
-            { name:'Imperial Esports', flag:'BR', score:'3:1', qualified:true },
-            { name:'B8', flag:'UA', score:'3:1', qualified:true },
-            { name:'3DMAX', flag:'FR', score:'3:2', qualified:true },
-            { name:'Team Liquid', flag:'US', score:'3:2', qualified:true },
-            { name:'Passion UA', flag:'UA', score:'3:2', qualified:true },
-            { name:'Astralis', flag:'DK', score:'2:3', qualified:false },
-            { name:'M80', flag:'US', score:'2:3', qualified:false },
-            { name:'Ninjas in Pyjamas', flag:'SE', score:'2:3', qualified:false },
-            { name:'Aurora', flag:'TR', score:'1:3', qualified:false },
-            { name:'Fnatic', flag:'SE', score:'1:3', qualified:false },
-            { name:'TYLOO', flag:'CN', score:'1:3', qualified:false },
-            { name:'MIBR', flag:'BR', score:'0:3', qualified:false },
-            { name:'FlyQuest', flag:'AU', score:'0:3', qualified:false }
-          ]
-        },
-        {
-          title: 'Этап 3',
-          period: '4 — 7 декабря',
-          description: '8 лучших команд прошли в плей-офф.',
-          qualifiedLabel: 'Прошли в плей-офф',
-          teams: [
-            { name:'FURIA Esports', flag:'BR', score:'3:0', qualified:true },
-            { name:'Team Spirit', flag:'RU', score:'3:0', qualified:true },
-            { name:'Team Vitality', flag:'EU', score:'3:1', qualified:true },
-            { name:'MOUZ', flag:'EU', score:'3:1', qualified:true },
-            { name:'The MongolZ', flag:'MN', score:'3:1', qualified:true },
-            { name:'Team Falcons', flag:'EU', score:'3:2', qualified:true },
-            { name:'FaZe Clan', flag:'EU', score:'3:2', qualified:true },
-            { name:'NAVI', flag:'EU', score:'3:2', qualified:true },
-            { name:'B8', flag:'UA', score:'2:3', qualified:false },
-            { name:'G2', flag:'EU', score:'2:3', qualified:false },
-            { name:'Passion UA', flag:'UA', score:'2:3', qualified:false },
-            { name:'paiN', flag:'BR', score:'1:3', qualified:false },
-            { name:'3DMAX', flag:'FR', score:'1:3', qualified:false },
-            { name:'Imperial Esports', flag:'BR', score:'1:3', qualified:false },
-            { name:'Team Liquid', flag:'US', score:'0:3', qualified:false },
-            { name:'PARIVISION', flag:'RU', score:'0:3', qualified:false }
-          ]
-        }
-      ]
-    },
-
-    { version:'CS2', year:'2026', title:'IEM Cologne 2026', date:'2 июня — 21 июня 2026', organizer:'ESL', prize:'1 250 000 $', mvp:'—', city:'Кёльн', cityFlag:'DE', upcoming:true, winner:{name:'—', flag:''}, second:{name:'—', flag:''}, semi:[] }
+  const info = [
+    ["Дата", "3 — 22 июня 2025"],
+    ["Формат этапов", "Швейцарская система"],
+    ["Плей-офф", "Single-elimination"],
+    ["Матчи плей-офф", "Best-of-3"],
+    ["Победитель", "Team Vitality"],
+    ["Второе место", "The MongolZ"],
+    ["Финал", "Vitality 2:1 Mongolz"],
+    ["Источник", "Google таблица"],
   ];
-
-  var countryFlags = {
-    SE:'🇸🇪', FR:'🇫🇷', US:'🇺🇸', PL:'🇵🇱', DK:'🇩🇰', DE:'🇩🇪',
-    UA:'🇺🇦', RO:'🇷🇴', CIS:'🌐', EU:'🇪🇺', BR:'🇧🇷', KZ:'🇰🇿',
-    GB:'🇬🇧', FI:'🇫🇮', AU:'🇦🇺', RU:'🇷🇺', BE:'🇧🇪', CN:'🇨🇳',
-    MN:'🇲🇳', HU:'🇭🇺', TR:'🇹🇷'
-  };
-
-  var yearSelect = root.querySelector('#gdash-year-select');
-  var tournamentSelect = root.querySelector('#gdash-tournament-select');
-  var titleEl = root.querySelector('#gdash-tournament-title');
-  var versionEl = root.querySelector('#gdash-version');
-  var winnerEl = root.querySelector('#gdash-winner-name');
-  var infoGrid = root.querySelector('#gdash-info-grid');
-  var stagesEl = root.querySelector('#gdash-stages');
-  var bracketWrap = root.querySelector('#gdash-bracket-wrap');
-  var bracketEl = root.querySelector('#gdash-bracket');
-  var thirdPlaceEl = root.querySelector('#gdash-third-place');
-  var teamsGrid = root.querySelector('#gdash-teams-grid');
-
-  function flag(code) {
-    return countryFlags[code] || code || '';
+  document.getElementById("gdash-info").innerHTML = info
+    .map(
+      ([l, v]) =>
+        `<div class="gdash__info-card"><span class="gdash__info-label">${l}</span><span class="gdash__info-value">${v}</span></div>`,
+    )
+    .join("");
+  function winner(match) {
+    const [sa, sb] = match.score.split(":").map(Number);
+    if (sa > sb) return match.a;
+    if (sb > sa) return match.b;
+    return "";
   }
-
-  function clearNode(node) {
-    while (node.firstChild) node.removeChild(node.firstChild);
+  function renderMatch(m) {
+    const w = winner(m);
+    return `<div class="gdash__match-row"><div class="gdash__match-time">${m.time}</div><div class="gdash__team-name ${w === m.a ? "is-winner" : ""}">${m.a}</div><div class="gdash__score">${m.score}</div><div class="gdash__team-name ${w === m.b ? "is-winner" : ""}">${m.b}</div></div>`;
   }
-
-  function logoUrl(name) {
-    var initials = name
-      .replace(/[^a-zA-Zа-яА-Я0-9 ]/g, '')
-      .split(' ')
-      .filter(Boolean)
-      .slice(0, 2)
-      .map(function (word) { return word.charAt(0).toUpperCase(); })
-      .join('') || 'T';
-
-    return 'https://placehold.co/80x80/111827/ffffff?text=' + encodeURIComponent(initials);
+  document.getElementById("gdash-stages").innerHTML = GDASH_DATA.stages
+    .map(
+      (stage) =>
+        `<article class="gdash__stage-card"><div class="gdash__stage-top"><h3 class="gdash__stage-title">${stage.title}</h3><div class="gdash__stage-meta">${stage.meta.map((x) => `<span class="gdash__pill">${x}</span>`).join("")}</div></div>${stage.rounds.map((r) => `<div class="gdash__round"><h4 class="gdash__round-title">${r.title}${r.group ? `<span class="gdash__round-subtitle">${r.group}</span>` : ""}</h4><div class="gdash__match-list">${r.matches.map(renderMatch).join("")}</div></div>`).join("")}</article>`,
+    )
+    .join("");
+  document.getElementById("gdash-status").innerHTML = GDASH_DATA.stageStatus
+    .map(
+      (list, i) =>
+        `<article class="gdash__status-card"><h3 class="gdash__status-title">Этап ${i + 1}</h3><div class="gdash__status-list">${list.map((row, idx) => `<div class="gdash__status-row ${row.in ? "is-in" : "is-out"}"><div class="gdash__place">${idx + 1}</div><div class="gdash__status-team">${row.team}</div><div class="gdash__status-score">${row.score}</div></div>`).join("")}</div></article>`,
+    )
+    .join("");
+  function bracketCard(m) {
+    return `<article class="gdash__bracket-card" data-match="${m.id}" data-pos="${m.pos}"><div class="gdash__bracket-match-title">${m.round} · ${m.time}</div><div class="gdash__bracket-team ${m.winner === m.a ? "is-winner" : ""}"><div class="gdash__bracket-team-name">${m.a}</div><div class="gdash__bracket-score">${m.sa}</div></div><div class="gdash__bracket-team ${m.winner === m.b ? "is-winner" : ""}"><div class="gdash__bracket-team-name">${m.b}</div><div class="gdash__bracket-score">${m.sb}</div></div></article>`;
   }
-
-  function makeInfoCard(label, value) {
-    var card = document.createElement('div');
-    card.className = 'gdash__info-card';
-    card.innerHTML =
-      '<span class="gdash__info-label">' + label + '</span>' +
-      '<span class="gdash__info-value">' + value + '</span>';
-    return card;
-  }
-
-  function makeTeam(name, country, score, games) {
-    return {
-      name: name || '—',
-      flag: country || '',
-      logo: logoUrl(name || 'Team'),
-      games: games || '',
-      score: score || ''
-    };
-  }
-
-  function makeTeamRow(team, winnerName) {
-    var hasScore = team.score !== undefined && team.score !== null && String(team.score).trim() !== '';
-    var hasGames = team.games !== undefined && team.games !== null && String(team.games).trim() !== '';
-
-    var row = document.createElement('div');
-    row.className = 'gdash__team-row' + (team.name === winnerName ? ' is-winner' : '') + (!hasScore ? ' is-no-score' : '');
-
-    row.innerHTML =
-      '<img class="gdash__team-logo" src="' + team.logo + '" alt="' + team.name + '">' +
-      '<div class="gdash__team-main">' +
-        '<div class="gdash__team-name-line">' +
-          '<span class="gdash__flag">' + flag(team.flag) + '</span>' +
-          '<span class="gdash__team-name">' + team.name + '</span>' +
-        '</div>' +
-        (hasGames ? '<div class="gdash__games">' + team.games + '</div>' : '') +
-      '</div>' +
-      (hasScore ? '<div class="gdash__score">' + team.score + '</div>' : '');
-
-    return row;
-  }
-
-  function makeMatch(title, winnerName, teams) {
-    var card = document.createElement('article');
-    card.className = 'gdash__match';
-
-    var matchName = document.createElement('div');
-    matchName.className = 'gdash__match-name';
-    matchName.textContent = title;
-    card.appendChild(matchName);
-
-    teams.forEach(function (team) {
-      card.appendChild(makeTeamRow(team, winnerName));
-    });
-
-    return card;
-  }
-
-  function buildBracket(tournament) {
-    if (tournament.cancelled) {
-      return null;
-    }
-
-    if (tournament.upcoming || tournament.winner.name === '—') {
-      return null;
-    }
-
-    if (tournament.playoff && tournament.playoff.length) {
-      return tournament.playoff.map(function (round) {
-        return {
-          key: round.key,
-          title: round.title,
-          matches: round.matches.map(function (match) {
-            return {
-              title: match.title,
-              winner: match.winner,
-              teams: match.teams.map(function (team) {
-                return makeTeam(team.name, team.flag, team.score || '', team.games || '');
-              })
-            };
-          })
-        };
-      });
-    }
-
-    var w = tournament.winner;
-    var s = tournament.second;
-    var sf1 = tournament.semi[0] || { name: 'Полуфиналист 1', flag: '' };
-    var sf2 = tournament.semi[1] || { name: 'Полуфиналист 2', flag: '' };
-
-    return [
-      {
-        key: 'semi',
-        title: '1/2 финала',
-        matches: [
-          { title:'Полуфинал 1', winner:w.name, teams:[makeTeam(w.name, w.flag), makeTeam(sf1.name, sf1.flag)] },
-          { title:'Полуфинал 2', winner:s.name, teams:[makeTeam(s.name, s.flag), makeTeam(sf2.name, sf2.flag)] }
-        ]
-      },
-      {
-        key: 'final',
-        title: 'Гранд финал',
-        matches: [
-          { title:'Финал', winner:w.name, teams:[makeTeam(w.name, w.flag), makeTeam(s.name, s.flag)] }
-        ]
-      }
-    ];
-  }
-
-  function renderStages(tournament) {
-    clearNode(stagesEl);
-
-    if (!tournament.stages || !tournament.stages.length) {
-      return;
-    }
-
-    var head = document.createElement('div');
-    head.className = 'gdash__stages-head';
-    head.innerHTML =
-      '<h3 class="gdash__stages-title">Этапы турнира</h3>' +
-      '<p class="gdash__stages-text">Счёт указан одним значением: 3:0, 3:1, 3:2, 2:3, 1:3 или 0:3.</p>';
-    stagesEl.appendChild(head);
-
-    var grid = document.createElement('div');
-    grid.className = 'gdash__stages-grid';
-
-    tournament.stages.forEach(function (stage) {
-      var card = document.createElement('article');
-      card.className = 'gdash__stage-card';
-
-      var rows = stage.teams.map(function (team, index) {
-        return (
-          '<div class="gdash__stage-row ' + (team.qualified ? 'is-qualified' : 'is-out') + '">' +
-            '<div class="gdash__stage-place">' + (index + 1) + '</div>' +
-            '<div class="gdash__stage-team">' +
-              '<span class="gdash__flag">' + flag(team.flag) + '</span>' +
-              '<span>' + team.name + '</span>' +
-            '</div>' +
-            '<div class="gdash__stage-score">' + team.score + '</div>' +
-          '</div>'
+  const q = GDASH_DATA.playoff
+    .filter((m) => m.id[0] === "q")
+    .map(bracketCard)
+    .join("");
+  const s = GDASH_DATA.playoff
+    .filter((m) => m.id[0] === "s")
+    .map(bracketCard)
+    .join("");
+  const f = GDASH_DATA.playoff
+    .filter((m) => m.id[0] === "f")
+    .map(bracketCard)
+    .join("");
+  document.getElementById("gdash-bracket").innerHTML =
+    `<div><h3 class="gdash__bracket-round-title">1/4 финала</h3><div class="gdash__bracket-col">${q}</div></div><div><h3 class="gdash__bracket-round-title">Полуфинал</h3><div class="gdash__bracket-col">${s}</div></div><div><h3 class="gdash__bracket-round-title">Финал</h3><div class="gdash__bracket-col">${f}</div></div>`;
+  function drawLines() {
+    const wrap = document.getElementById("gdash-bracket-wrap"),
+      svg = document.getElementById("gdash-lines");
+    if (!wrap || !svg) return;
+    const wr = wrap.getBoundingClientRect();
+    svg.setAttribute("width", wrap.scrollWidth);
+    svg.setAttribute("height", wrap.scrollHeight);
+    svg.innerHTML = "";
+    GDASH_DATA.playoff
+      .filter((m) => m.next)
+      .forEach((m) => {
+        const a = root.querySelector(`[data-match="${m.id}"]`),
+          b = root.querySelector(`[data-match="${m.next}"]`);
+        if (!a || !b) return;
+        const ar = a.getBoundingClientRect(),
+          br = b.getBoundingClientRect();
+        const x1 = ar.right - wr.left + wrap.scrollLeft,
+          y1 = ar.top - wr.top + ar.height / 2 + wrap.scrollTop,
+          x2 = br.left - wr.left + wrap.scrollLeft,
+          y2 = br.top - wr.top + br.height / 2 + wrap.scrollTop,
+          mid = x1 + (x2 - x1) / 2;
+        const path = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path",
         );
-      }).join('');
-
-      card.innerHTML =
-        '<div class="gdash__stage-top">' +
-          '<div>' +
-            '<h4 class="gdash__stage-title">' + stage.title + '</h4>' +
-            '<div class="gdash__stage-period">' + stage.period + '</div>' +
-          '</div>' +
-          '<div class="gdash__stage-badge">' + stage.qualifiedLabel + '</div>' +
-        '</div>' +
-        '<p class="gdash__stage-description">' + stage.description + '</p>' +
-        '<div class="gdash__stage-table">' + rows + '</div>';
-
-      grid.appendChild(card);
-    });
-
-    stagesEl.appendChild(grid);
-  }
-
-  function drawBracketLines() {
-    if (!bracketEl) return;
-
-    var oldSvg = bracketEl.querySelector('.gdash__bracket-lines');
-    if (oldSvg) oldSvg.remove();
-
-    var qf = bracketEl.querySelectorAll('.gdash__round--quarter .gdash__match');
-    var sf = bracketEl.querySelectorAll('.gdash__round--semi .gdash__match');
-    var fn = bracketEl.querySelectorAll('.gdash__round--final .gdash__match');
-
-    if (!sf.length || !fn.length) return;
-
-    var box = bracketEl.getBoundingClientRect();
-    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.classList.add('gdash__bracket-lines');
-    svg.setAttribute('width', String(box.width));
-    svg.setAttribute('height', String(box.height));
-    svg.setAttribute('viewBox', '0 0 ' + box.width + ' ' + box.height);
-
-    function point(el, side) {
-      var r = el.getBoundingClientRect();
-      return {
-        x: side === 'right' ? r.right - box.left : r.left - box.left,
-        y: r.top - box.top + r.height / 2
-      };
-    }
-
-    function connect(fromEl, toEl) {
-      if (!fromEl || !toEl) return;
-
-      var a = point(fromEl, 'right');
-      var b = point(toEl, 'left');
-      var mid = a.x + (b.x - a.x) / 2;
-
-      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d', 'M ' + a.x + ' ' + a.y + ' H ' + mid + ' V ' + b.y + ' H ' + b.x);
-      path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', '#aeb7c4');
-      path.setAttribute('stroke-width', '1.5');
-      path.setAttribute('stroke-linecap', 'round');
-      path.setAttribute('stroke-linejoin', 'round');
-      svg.appendChild(path);
-    }
-
-    if (qf.length >= 4 && sf.length >= 2) {
-      connect(qf[0], sf[0]);
-      connect(qf[1], sf[0]);
-      connect(qf[2], sf[1]);
-      connect(qf[3], sf[1]);
-    }
-
-    connect(sf[0], fn[0]);
-    connect(sf[1], fn[0]);
-
-    bracketEl.prepend(svg);
-  }
-
-  function renderBracket(tournament) {
-    clearNode(bracketEl);
-    clearNode(thirdPlaceEl);
-
-    var rounds = buildBracket(tournament);
-
-    if (!rounds) {
-      bracketWrap.innerHTML = '<div class="gdash__notice">' + (tournament.cancelled ? 'Турнир был отменен, поэтому сетка не отображается.' : 'Турнир еще не сыгран или в источнике нет данных для построения сетки.') + '</div>';
-      return;
-    }
-
-    bracketWrap.innerHTML = '<div class="gdash__bracket" id="gdash-bracket"></div>';
-    bracketEl = root.querySelector('#gdash-bracket');
-
-    rounds.forEach(function (round) {
-      var roundNode = document.createElement('div');
-      roundNode.className = 'gdash__round gdash__round--' + round.key;
-
-      var title = document.createElement('h4');
-      title.className = 'gdash__round-title';
-      title.textContent = round.title;
-
-      var inner = document.createElement('div');
-      inner.className = 'gdash__round-inner';
-
-      round.matches.forEach(function (match) {
-        inner.appendChild(makeMatch(match.title, match.winner, match.teams));
+        path.setAttribute(
+          "d",
+          `M ${x1} ${y1} L ${mid} ${y1} L ${mid} ${y2} L ${x2} ${y2}`,
+        );
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", "#9ca3af");
+        path.setAttribute("stroke-width", "1.5");
+        svg.appendChild(path);
       });
-
-      roundNode.appendChild(title);
-      roundNode.appendChild(inner);
-      bracketEl.appendChild(roundNode);
-    });
-
-    if (tournament.thirdPlace) {
-      var thirdTitle = document.createElement('h3');
-      thirdTitle.className = 'gdash__third-title';
-      thirdTitle.textContent = 'Отдельный матч за третье место';
-      thirdPlaceEl.appendChild(thirdTitle);
-
-      var thirdLayout = document.createElement('div');
-      thirdLayout.className = 'gdash__third-layout';
-      thirdLayout.appendChild(
-        makeMatch('Матч за 3 место', tournament.thirdPlace.winner || '', tournament.thirdPlace.teams.map(function (team) {
-          return makeTeam(team.name, team.flag, team.score || '', team.games || '');
-        }))
-      );
-
-      thirdPlaceEl.appendChild(thirdLayout);
-    }
-
-    window.requestAnimationFrame(drawBracketLines);
   }
-
-  window.addEventListener('resize', function () {
-    window.requestAnimationFrame(drawBracketLines);
+  setTimeout(drawLines, 60);
+  window.addEventListener("resize", drawLines);
+  document
+    .getElementById("gdash-bracket-wrap")
+    .addEventListener("scroll", drawLines);
+  const teamSet = new Set();
+  GDASH_DATA.stages.forEach((st) =>
+    st.rounds.forEach((r) =>
+      r.matches.forEach((m) => {
+        teamSet.add(m.a);
+        teamSet.add(m.b);
+      }),
+    ),
+  );
+  GDASH_DATA.playoff.forEach((m) => {
+    teamSet.add(m.a);
+    teamSet.add(m.b);
   });
-
-  function uniqueYears() {
-    var years = [];
-    tournaments.forEach(function (item) {
-      if (years.indexOf(item.year) === -1) years.push(item.year);
-    });
-    return years.sort(function (a, b) { return Number(a) - Number(b); });
-  }
-
-  function tournamentsByYear(year) {
-    return tournaments.filter(function (item) {
-      return item.year === year;
-    });
-  }
-
-  function initYears() {
-    clearNode(yearSelect);
-
-    uniqueYears().forEach(function (year) {
-      var option = document.createElement('option');
-      option.value = year;
-      option.textContent = year;
-      yearSelect.appendChild(option);
-    });
-
-    yearSelect.value = uniqueYears()[uniqueYears().length - 1];
-  }
-
-  function updateTournamentSelect() {
-    clearNode(tournamentSelect);
-
-    tournamentsByYear(yearSelect.value).forEach(function (tournament, index) {
-      var option = document.createElement('option');
-      option.value = String(index);
-      option.textContent = tournament.title;
-      tournamentSelect.appendChild(option);
-    });
-
-    tournamentSelect.value = '0';
-  }
-
-  function getCurrentTournament() {
-    var list = tournamentsByYear(yearSelect.value);
-    return list[Number(tournamentSelect.value)] || list[0] || tournaments[0];
-  }
-
-  function renderTournament() {
-    var tournament = getCurrentTournament();
-
-    versionEl.textContent = tournament.version;
-    titleEl.textContent = tournament.title;
-    winnerEl.textContent = tournament.winner.name || '—';
-
-    clearNode(infoGrid);
-    infoGrid.appendChild(makeInfoCard('Дата', tournament.date));
-    infoGrid.appendChild(makeInfoCard('Организатор', tournament.organizer));
-    infoGrid.appendChild(makeInfoCard('Призовой фонд', tournament.prize));
-    infoGrid.appendChild(makeInfoCard('MVP', tournament.mvp || '—'));
-    infoGrid.appendChild(makeInfoCard('Город', flag(tournament.cityFlag) + ' ' + tournament.city));
-    infoGrid.appendChild(makeInfoCard('Победитель', flag(tournament.winner.flag) + ' ' + tournament.winner.name));
-    infoGrid.appendChild(makeInfoCard('Второе место', flag(tournament.second.flag) + ' ' + tournament.second.name));
-    infoGrid.appendChild(makeInfoCard('Полуфиналисты', tournament.semi.length ? tournament.semi.map(function (team) { return flag(team.flag) + ' ' + team.name; }).join(', ') : '—'));
-
-    renderStages(tournament);
-    renderBracket(tournament);
-  }
-
-  function getAllTeams() {
-    var map = {};
-
-    tournaments.forEach(function (tournament) {
-      [tournament.winner, tournament.second].concat(tournament.semi || []).forEach(function (team) {
-        if (!team || !team.name || team.name === '—' || team.name === 'Отменён') return;
-
-        if (!map[team.name]) {
-          map[team.name] = {
-            name: team.name,
-            flag: team.flag,
-            logo: logoUrl(team.name),
-            tournaments: []
-          };
-        }
-
-        if (map[team.name].tournaments.indexOf(tournament.year) === -1) {
-          map[team.name].tournaments.push(tournament.year);
-        }
-      });
-    });
-
-    return Object.keys(map).sort().map(function (key) {
-      return map[key];
-    });
-  }
-
-  function renderTeams() {
-    clearNode(teamsGrid);
-
-    getAllTeams().forEach(function (team) {
-      var card = document.createElement('article');
-      card.className = 'gdash__team-card';
-      card.innerHTML =
-        '<div class="gdash__team-card-head">' +
-          '<img class="gdash__team-card-logo" src="' + team.logo + '" alt="' + team.name + '">' +
-          '<div>' +
-            '<h3 class="gdash__team-card-name">' + team.name + '</h3>' +
-            '<div class="gdash__team-card-meta">' + flag(team.flag) + ' ' + team.flag + '</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="gdash__team-card-meta">Годы в турнирах: ' + team.tournaments.join(', ') + '</div>';
-      teamsGrid.appendChild(card);
-    });
-  }
-
-  root.querySelectorAll('.gdash__nav-btn').forEach(function (button) {
-    button.addEventListener('click', function () {
-      var page = button.getAttribute('data-page');
-
-      root.querySelectorAll('.gdash__nav-btn').forEach(function (btn) {
-        btn.classList.toggle('is-active', btn === button);
-      });
-
-      root.querySelectorAll('.gdash__page').forEach(function (section) {
-        section.classList.toggle('is-active', section.getAttribute('data-page-content') === page);
-      });
-    });
-  });
-
-  yearSelect.addEventListener('change', function () {
-    updateTournamentSelect();
-    renderTournament();
-  });
-
-  tournamentSelect.addEventListener('change', renderTournament);
-
-  initYears();
-  updateTournamentSelect();
-  renderTournament();
-  renderTeams();
+  document.getElementById("gdash-teams").innerHTML = [...teamSet]
+    .sort()
+    .map(
+      (t) =>
+        `<article class="gdash__team-card"><h3 class="gdash__team-card-name">${t}</h3><div class="gdash__team-card-meta">Участник турнира 2025</div></article>`,
+    )
+    .join("");
+  root.querySelectorAll(".gdash__nav-btn").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const page = btn.dataset.page;
+      root
+        .querySelectorAll(".gdash__nav-btn")
+        .forEach((b) => b.classList.toggle("is-active", b === btn));
+      root
+        .querySelectorAll(".gdash__page")
+        .forEach((s) =>
+          s.classList.toggle("is-active", s.dataset.pageContent === page),
+        );
+      setTimeout(drawLines, 60);
+    }),
+  );
 })();
