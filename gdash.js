@@ -506,34 +506,17 @@ const GDASH_DATA = {
       <main class="gdash__main">
         <section class="gdash__page is-active" data-page-content="tournament">
           <div class="gdash__hero">
-            <div class="gdash__hero-main"><div class="gdash__eyebrow">CS2 Major 2025</div><h1 class="gdash__title">BLAST.tv Austin Major 2025</h1><p class="gdash__desc">Этапы 1–3 построены по швейцарской системе: 16 команд, 8 сильнейших проходят дальше, 8 слабейших выбывают. Плей-офф — single-elimination, все матчи best-of-3.</p></div>
+            <div class="gdash__hero-main"><div class="gdash__eyebrow">CS2 Major 2025</div><h1 class="gdash__title">BLAST.tv Austin Major 2025</h1><p class="gdash__desc">Турнир 2025: сначала три этапа по швейцарской системе, затем плей-офф single-elimination.</p></div>
             <div class="gdash__winner-card"><span>Победитель</span><strong>Team Vitality</strong></div>
           </div>
-          <div class="gdash__info-grid" id="gdash-info"></div>
-          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Этапы турнира</h2><p class="gdash__section-text">Матчи разложены по этапам и раундам. В строке показан один итоговый счет конкретного матча.</p></div><div class="gdash__stage-grid" id="gdash-stages"></div></section>
+          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Плей-офф</h2><p class="gdash__section-text">Сетка single-elimination: 1/4 финала, полуфинал, финал. Все матчи best-of-3.</p></div><div class="gdash__bracket-wrap" id="gdash-bracket-wrap"><svg class="gdash__bracket-lines" id="gdash-lines"></svg><div class="gdash__bracket" id="gdash-bracket"></div></div></section>
           <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Итоги этапов</h2><p class="gdash__section-text">Зеленым отмечены команды, которые прошли дальше. Красным — команды, которые выбыли.</p></div><div class="gdash__status-grid" id="gdash-status"></div></section>
-          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Плей-офф</h2><p class="gdash__section-text">Сетка single-elimination: 1/4 финала, полуфинал, финал. Линии идут от матча к следующему матчу.</p></div><div class="gdash__bracket-wrap" id="gdash-bracket-wrap"><svg class="gdash__bracket-lines" id="gdash-lines"></svg><div class="gdash__bracket" id="gdash-bracket"></div></div></section>
+          <section class="gdash__section"><div class="gdash__section-head"><h2 class="gdash__section-title">Все игры</h2><p class="gdash__section-text">Все матчи этапов 1–3 по раундам. В строке показан один итоговый счет конкретной игры.</p></div><div class="gdash__stage-grid" id="gdash-stages"></div></section>
         </section>
         <section class="gdash__page" data-page-content="teams"><section class="gdash__section" style="margin-top:0"><div class="gdash__section-head"><h2 class="gdash__section-title">Команды</h2><p class="gdash__section-text">Все команды, которые встречаются в этапах и плей-офф.</p></div><div class="gdash__team-grid" id="gdash-teams"></div></section></section>
       </main>
     </div>`;
 
-  const info = [
-    ["Дата", "3 — 22 июня 2025"],
-    ["Формат этапов", "Швейцарская система"],
-    ["Плей-офф", "Single-elimination"],
-    ["Матчи плей-офф", "Best-of-3"],
-    ["Победитель", "Team Vitality"],
-    ["Второе место", "The MongolZ"],
-    ["Финал", "Vitality 2:1 Mongolz"],
-    ["Источник", "Google таблица"],
-  ];
-  document.getElementById("gdash-info").innerHTML = info
-    .map(
-      ([l, v]) =>
-        `<div class="gdash__info-card"><span class="gdash__info-label">${l}</span><span class="gdash__info-value">${v}</span></div>`,
-    )
-    .join("");
   function winner(match) {
     const [sa, sb] = match.score.split(":").map(Number);
     if (sa > sb) return match.a;
